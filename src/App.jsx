@@ -8,10 +8,13 @@ function App() {
     <>
       <Header />
 
-      <main style={{ padding: '48px 24px' }}>
+      <main className="py-12 px-6">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
+
+          {/* Fallback: if anything doesn't match, show Home */}
+          <Route path="*" element={<Home />} />
         </Routes>
       </main>
     </>

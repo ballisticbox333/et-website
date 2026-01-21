@@ -2,24 +2,15 @@ import { Link } from 'react-router-dom'
 
 function Header() {
   return (
-    <header
-      style={{
-        backgroundColor: '#39ff14',
-        color: '#000',
-        padding: '16px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <div style={{ fontWeight: 700 }}>E.T. Custom Landscaping</div>
+    <header className="bg-[#39ff14] text-black py-4 px-6 flex items-center justify-between">
+      <div className="font-bold">E.T. Custom Landscaping</div>
 
-      <nav style={{ display: 'flex', gap: '16px' }}>
-        <Link to="/" style={{ color: '#000', textDecoration: 'none' }}>
+      <nav className="flex gap-4">
+        <Link to="/" className="text-black no-underline">
           Home
         </Link>
 
-        <Link to="/contact" style={{ color: '#000', textDecoration: 'none' }}>
+        <Link to="/contact" className="text-black no-underline">
           Contact
         </Link>
       </nav>
