@@ -21,7 +21,7 @@ function Home() {
 
       {/* Intro paragraph */}
       <div className="flex justify-center">
-        <div className="max-w-4xl text-center leading-relaxed">
+        <div className="max-w-4xl px-6 text-center leading-relaxed">
           <p className="text-[20px]">
             Welcome to <span className="font-bold">E.T. Custom Landscaping</span>, where nature’s
             beauty meets skilled craftsmanship. We are your trusted partners in creating and

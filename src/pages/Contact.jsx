@@ -25,78 +25,117 @@ function Contact() {
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="w-full max-w-[720px]">
-        <h1 className="text-3xl font-bold mb-6 text-center">Contact Us</h1>
+    <div className="mx-auto max-w-6xl px-6">
+      <h1 className="text-3xl font-bold mb-10 text-center">Contact Us</h1>
 
-        {!submitted && (
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block mb-1 font-semibold" htmlFor="name">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
-                autoComplete="name"
-              />
-            </div>
+      <div className="grid gap-10 md:grid-cols-2">
+        {/* LEFT COLUMN */}
+        <div>
+          <p className="text-gray-700 leading-relaxed mb-8">
+            Looking for a free estimate on your next project, or simply need a
+            reliable quality lawn service? Feel free to reach out—we’d love to
+            hear from you!
+          </p>
 
-            <div>
-              <label className="block mb-1 font-semibold" htmlFor="email">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
-                autoComplete="email"
-              />
-            </div>
+          {!submitted && (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid gap-6 md:grid-cols-2">
+                <div>
+                  <label className="block mb-2 text-gray-700" htmlFor="name">
+                    Name (required)
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full border border-gray-300 px-4 py-3"
+                    autoComplete="name"
+                  />
+                </div>
 
-            <div>
-              <label className="block mb-1 font-semibold" htmlFor="message">
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows="5"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
-              />
-            </div>
+                <div>
+                  <label className="block mb-2 text-gray-700" htmlFor="email">
+                    Email (required)
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full border border-gray-300 px-4 py-3"
+                    autoComplete="email"
+                  />
+                </div>
+              </div>
 
-            <div className="flex justify-center">
+              <div>
+                <label className="block mb-2 text-gray-700" htmlFor="message">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  rows="8"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className="w-full border border-gray-300 px-4 py-3"
+                />
+              </div>
+
               <button
                 type="submit"
-                className="bg-[#39ff14] text-black py-3 px-6 rounded-lg font-bold"
+                className="bg-[#39ff14] text-black py-3 px-6 font-bold"
               >
-                Send Message
+                Send
               </button>
-            </div>
+            </form>
+          )}
 
-            <div className="mt-6 pt-4 border-t text-center text-gray-700">
-              <p className="font-semibold">etcustomlandscaping@gmail.com</p>
-              <p>(904) 775-0383</p>
+          {submitted && (
+            <div className="mt-10">
+              <h2 className="text-2xl font-bold mb-3">Thank you!</h2>
+              <p className="text-gray-700">
+                We’ve received your message and will get back to you as soon as
+                possible.
+              </p>
             </div>
-          </form>
-        )}
+          )}
+        </div>
 
-        {submitted && (
-          <div className="mt-10 text-center">
-            <h2 className="text-2xl font-bold mb-4">Thank you!</h2>
-            <p className="text-lg text-gray-700">
-              We’ve received your message and will get back to you as soon as
-              possible.
-            </p>
+        {/* RIGHT COLUMN */}
+        <div className="space-y-10">
+          <div>
+            <p className="font-semibold">etcustomlandscaping@gmail.com</p>
+            <p className="font-semibold">(904) 775-0383</p>
           </div>
-        )}
+
+          <div>
+            <h2 className="text-xl font-bold mb-4">Hours</h2>
+
+            <div className="grid grid-cols-2 gap-y-3">
+              <p className="font-semibold">Monday</p>
+              <p>7:00 am – 7:00 pm</p>
+
+              <p className="font-semibold">Tuesday</p>
+              <p>7:00 am – 7:00 pm</p>
+
+              <p className="font-semibold">Wednesday</p>
+              <p>7:00 am – 7:00 pm</p>
+
+              <p className="font-semibold">Thursday</p>
+              <p>7:00 am – 7:00 pm</p>
+
+              <p className="font-semibold">Friday</p>
+              <p>7:00 am – 7:00 pm</p>
+
+              <p className="font-semibold">Saturday</p>
+              <p>7:00 am – 5:00 pm</p>
+
+              <p className="font-semibold">Sunday</p>
+              <p>7:00 am – 5:00 pm</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
