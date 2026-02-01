@@ -27,7 +27,7 @@ function Header() {
 
           <a
             href="tel:+19047750383"
-            className="text-black no-underline font-semibold"
+            className="text-black font-semibold underline underline-offset-4 hover:opacity-80"
           >
             (904) 775-0383
           </a>
@@ -77,7 +77,7 @@ function Header() {
 
             <a
               href="tel:+19047750383"
-              className="text-black no-underline font-semibold"
+              className="text-black font-semibold underline underline-offset-4 hover:opacity-80"
               onClick={closeMenu}
             >
               (904) 775-0383
