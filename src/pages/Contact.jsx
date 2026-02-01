@@ -1,6 +1,7 @@
 import { useState } from "react";
+
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbyfh1am-7Y0Dd1fZ3yvTA8qtMJc1Zmevx05f4Ulsa8Oz0U0OjPb0m_bU2SBHGLObHzZYg/exec";
+  "https://script.google.com/macros/s/AKfycby-mG3lgau8X0wfHFI-lAKL5LIPRB15lgpzYSrfzllGKHxyZvGjWWMRV89SvepFewQWgw/exec";
 
 function Contact() {
   const [name, setName] = useState("");
@@ -8,9 +9,12 @@ function Contact() {
   const [serviceType, setServiceType] = useState("Lawn Maintenance");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if (isSubmitting) return;
 
     const trimmedName = name.trim();
     const trimmedEmail = email.trim();
@@ -20,7 +24,8 @@ function Contact() {
       return;
     }
 
-    // Fire-and-forget to avoid CORS issues with Apps Script
+    setIsSubmitting(true);
+
     try {
       await fetch(SCRIPT_URL, {
         method: "POST",
@@ -42,10 +47,10 @@ function Contact() {
       setEmail("");
       setServiceType("Lawn Maintenance");
       setMessage("");
-    } catch {
-      // If the network totally fails, don't pretend it worked
-      // (We’ll add a visible error message in the next step if this happens.)
-      return;
+    } catch (err) {
+      // fire-and-forget; no UI error handling yet
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -125,9 +130,10 @@ function Contact() {
 
               <button
                 type="submit"
-                className="bg-[#39ff14] text-black py-3 px-6 font-bold"
+                disabled={isSubmitting}
+                className="bg-[#39ff14] text-black py-3 px-6 font-bold disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Send
+                {isSubmitting ? "Sending..." : "Send"}
               </button>
             </form>
           )}
