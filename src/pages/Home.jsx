@@ -35,6 +35,15 @@ function Home() {
         </div>
       </div>
 
+      {/* Contact Us button */}
+      <div className="mt-6 flex justify-center">
+        <Link
+          to="/contact"
+          className="inline-flex items-center justify-center rounded-md bg-[#39ff14] px-6 py-3 font-bold text-black hover:opacity-90"
+        >
+          Contact Us
+        </Link>
+      </div>
 
       {/* Divider */}
       <div className="flex justify-center my-8">

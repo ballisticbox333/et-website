@@ -12,7 +12,7 @@ function Header() {
         </Link>
 
         <Link to="/contact" className="text-black no-underline">
-          Contact
+          Contact Us
         </Link>
       </nav>
 

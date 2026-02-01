@@ -1,12 +1,15 @@
 import { useState } from "react";
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbyfh1am-7Y0Dd1fZ3yvTA8qtMJc1Zmevx05f4Ulsa8Oz0U0OjPb0m_bU2SBHGLObHzZYg/exec";
 
 function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [serviceType, setServiceType] = useState("Lawn Maintenance");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const trimmedName = name.trim();
@@ -17,11 +20,33 @@ function Contact() {
       return;
     }
 
-    setSubmitted(true);
+    // Fire-and-forget to avoid CORS issues with Apps Script
+    try {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify({
+          name: trimmedName,
+          email: trimmedEmail,
+          serviceType,
+          message: trimmedMessage,
+          page: window.location.href,
+        }),
+      });
 
-    setName("");
-    setEmail("");
-    setMessage("");
+      setSubmitted(true);
+      setName("");
+      setEmail("");
+      setServiceType("Lawn Maintenance");
+      setMessage("");
+    } catch {
+      // If the network totally fails, don't pretend it worked
+      // (We’ll add a visible error message in the next step if this happens.)
+      return;
+    }
   }
 
   return (
@@ -33,7 +58,7 @@ function Contact() {
         <div>
           <p className="text-gray-700 leading-relaxed mb-8">
             Looking for a free estimate on your next project, or simply need a
-            reliable quality lawn service? Feel free to reach out—we’d love to
+            reliable quality lawn service? Feel free to reach out, we’d love to
             hear from you!
           </p>
 
@@ -67,6 +92,22 @@ function Contact() {
                     autoComplete="email"
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block mb-2 text-gray-700" htmlFor="serviceType">
+                  Service Type
+                </label>
+                <select
+                  id="serviceType"
+                  value={serviceType}
+                  onChange={(e) => setServiceType(e.target.value)}
+                  className="w-full border border-gray-300 px-4 py-3"
+                >
+                  <option value="Lawn Maintenance">Lawn Maintenance</option>
+                  <option value="Landscaping">Landscaping</option>
+                  <option value="Clean-Up">Clean-Up</option>
+                </select>
               </div>
 
               <div>
