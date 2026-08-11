@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import cardPhoto1 from "../assets/cardPhoto1.png";
 import cardPhoto2 from "../assets/cardPhoto2.png";
 import cardPhoto3 from "../assets/cardPhoto3.png";
-import cardPhoto4 from "../assets/cardPhoto4.png";
 
 
 
@@ -150,39 +149,6 @@ function Home() {
         </div>
       </section>
 
-      {/* card4 */}
-      <section className="mt-16">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="grid items-center gap-10 md:grid-cols-2">
-            <div className="md:order-2">
-              <h2 className="text-3xl font-bold">
-                Lawn Maintenance and Yard Care
-              </h2>
-
-              <p className="mt-4 leading-relaxed">
-                Placeholder text for now. This section will explain what we do,
-                what packages we provide, what machines and options we have, and what the customer should expect from the
-                process.
-              </p>
-
-              <p className="mt-4 leading-relaxed">
-                Placeholder text for now. Mention maintenance, trimming, weed control, and
-                general cleaning up, plus the outcome. clean lines, a finished look, and work 
-                that they can appreciate
-              </p>
-            </div>
-
-            <div className="md:order-1 aspect-[4/3] w-full overflow-hidden bg-black">
-              <img
-                src={cardPhoto4}
-                alt="Landscaping work example"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* About Us */}
       <section className="mt-24 w-full bg-[#39ff14] text-black">
         <div className="mx-auto max-w-6xl px-6 py-12">
@@ -223,7 +189,7 @@ function Home() {
         <div className="w-[720px] h-px bg-gray-300" />
       </div>
 
-      {/* Contact button */}
+      {/* Contact Us button */}
       <div className="flex justify-center">
         <Link
           to="/contact"

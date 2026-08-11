@@ -47,7 +47,7 @@ function Contact() {
       setEmail("");
       setServiceType("Lawn Maintenance");
       setMessage("");
-    } catch (err) {
+    } catch {
       // fire-and-forget; no UI error handling yet
     } finally {
       setIsSubmitting(false);
