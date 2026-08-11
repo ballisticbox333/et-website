@@ -1,22 +1,26 @@
 import './App.css'
+import { useEffect, useState } from 'react'
+import { flushSync } from 'react-dom'
 
 import logo from './assets/ET-custom-logo.png'
-import yardBefore from './assets/work/yard-renovation-before.png'
-import yardAfter from './assets/work/yard-renovation-after.png'
-import frontBefore from './assets/work/front-landscape-before.png'
-import frontAfter from './assets/work/front-landscape-after.png'
-import brushBefore from './assets/work/brush-cleanup-before.png'
-import brushAfter from './assets/work/brush-cleanup-after.png'
-import sideBefore from './assets/work/side-yard-before.png'
-import sideAfter from './assets/work/side-yard-after.png'
-import palmMulch from './assets/work/palm-mulch-bed.png'
-import paverRock from './assets/work/paver-rock-landscape.png'
-import backyardLawn from './assets/work/finished-backyard-lawn.png'
-import walkwayRock from './assets/work/walkway-rock-bed.png'
-import cleanBackyard from './assets/work/clean-backyard-maintenance.png'
-import frontLawn from './assets/work/front-lawn-maintenance.png'
-import curbsideLawn from './assets/work/curbside-lawn.png'
-import frontRefresh from './assets/work/front-bed-refresh.png'
+import heroLandscape from './assets/work/hero-front-landscape.jpg'
+import yardBefore from './assets/work/backyard-lawn-renovation-before.jpg'
+import yardAfter from './assets/work/backyard-lawn-renovation-after.jpg'
+import frontBefore from './assets/work/front-landscape-redesign-before.jpg'
+import frontAfter from './assets/work/front-landscape-redesign-after.jpg'
+import brushBefore from './assets/work/corner-lawn-restoration-before.jpg'
+import brushAfter from './assets/work/corner-lawn-restoration-after.jpg'
+import sideBefore from './assets/work/front-lawn-renewal-before.jpg'
+import sideAfter from './assets/work/front-lawn-renewal-after.jpg'
+import rockWalkway from './assets/work/finished-rock-walkway.jpg'
+import sideLawn from './assets/work/finished-side-lawn.jpg'
+import backyardSod from './assets/work/finished-backyard-sod.jpg'
+import palmMulch from './assets/work/finished-palm-mulch.jpg'
+import rockPaverBed from './assets/work/finished-rock-paver-bed.jpg'
+import flowerBed from './assets/work/finished-flower-bed.jpg'
+import frontLandscape from './assets/work/finished-front-landscape.jpg'
+import treeBed from './assets/work/finished-tree-bed.jpg'
+import rockMulchDesign from './assets/work/finished-rock-mulch-design.jpg'
 
 const phone = '904-775-0383'
 const phoneHref = 'tel:+19047750383'
@@ -46,28 +50,41 @@ const transformations = [
     text: 'Rock beds, fresh plants, defined borders, and better curb appeal.',
   },
   {
-    title: 'Brush and Overgrowth Cleanup',
+    title: 'Corner Lawn Restoration',
     before: brushBefore,
     after: brushAfter,
-    text: 'Overgrown areas cleared back into usable, maintained space.',
+    text: 'A stripped, unfinished lawn restored with fresh sod and clean edges.',
   },
   {
-    title: 'Side Yard Maintenance',
+    title: 'Front Lawn Renewal',
     before: sideBefore,
     after: sideAfter,
-    text: 'Tight areas cleaned up with sharper lines and a finished cut.',
+    text: 'A tired front lawn renewed with healthy green coverage and a finished curb line.',
   },
 ]
 
 const gallery = [
-  { image: palmMulch, label: 'Mulch bed installation' },
-  { image: paverRock, label: 'Rock and paver landscape' },
-  { image: backyardLawn, label: 'Finished lawn maintenance' },
-  { image: walkwayRock, label: 'Walkway rock bed' },
-  { image: cleanBackyard, label: 'Backyard maintenance' },
-  { image: frontLawn, label: 'Front lawn care' },
-  { image: curbsideLawn, label: 'Curbside lawn cleanup' },
-  { image: frontRefresh, label: 'Front bed refresh' },
+  { image: rockWalkway, label: 'Finished rock walkway' },
+  { image: sideLawn, label: 'Finished side lawn' },
+  { image: backyardSod, label: 'Finished backyard sod' },
+  { image: palmMulch, label: 'Palm and mulch landscape bed' },
+  { image: rockPaverBed, label: 'Rock bed and paver landscape' },
+  { image: flowerBed, label: 'Fresh flower bed installation' },
+  { image: frontLandscape, label: 'Finished front landscaping' },
+  { image: treeBed, label: 'Finished tree and flower bed' },
+  { image: rockMulchDesign, label: 'Rock and mulch landscape design' },
+]
+
+const featuredPositions = [
+  { column: 1, row: 1 },
+  { column: 2, row: 1 },
+  { column: 3, row: 1 },
+  { column: 1, row: 2 },
+  { column: 1, row: 2 },
+  { column: 2, row: 2 },
+  { column: 3, row: 2 },
+  { column: 3, row: 2 },
+  { column: 2, row: 2 },
 ]
 
 const reviews = [
@@ -104,6 +121,41 @@ const reviews = [
 ]
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [featuredPhoto, setFeaturedPhoto] = useState(0)
+  const [expandedPhoto, setExpandedPhoto] = useState(null)
+
+  const closeMenu = () => setMenuOpen(false)
+
+  const featurePhoto = (index) => {
+    if (index === featuredPhoto) return
+
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        flushSync(() => setFeaturedPhoto(index))
+      })
+      return
+    }
+
+    setFeaturedPhoto(index)
+  }
+
+  useEffect(() => {
+    if (!expandedPhoto) return undefined
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setExpandedPhoto(null)
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [expandedPhoto])
+
   return (
     <div className="site-shell">
       <header className="site-header">
@@ -112,22 +164,36 @@ function App() {
           <span>E.T. Custom Landscaping</span>
         </a>
 
-        <nav className="site-nav" aria-label="Main navigation">
-          <a href="#services">Services</a>
-          <a href="#work">Work</a>
-          <a href="#reviews">Reviews</a>
-          <a href="#contact">Contact</a>
+        <button
+          className="menu-toggle"
+          type="button"
+          aria-expanded={menuOpen}
+          aria-controls="site-navigation"
+          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <nav id="site-navigation" className={`site-nav${menuOpen ? ' open' : ''}`} aria-label="Main navigation">
+          <a href="#services" onClick={closeMenu}>Services</a>
+          <a href="#work" onClick={closeMenu}>Work</a>
+          <a href="#reviews" onClick={closeMenu}>Reviews</a>
+          <a href="#contact" onClick={closeMenu}>Contact</a>
+          <a className="nav-mobile-call" href={phoneHref} onClick={closeMenu}>Talk About Your Property</a>
         </nav>
 
         <a className="header-call" href={phoneHref}>
-          Call {phone}
+          Talk About Your Property
         </a>
       </header>
 
       <main id="top">
         <section className="hero">
           <div className="hero-media">
-            <img src={frontAfter} alt="Finished front yard landscaping with rock beds and new plants" />
+            <img src={heroLandscape} alt="Finished front yard landscaping with palm, rock beds, shrubs, and flowers" />
           </div>
           <div className="hero-overlay" />
           <div className="hero-content">
@@ -144,7 +210,7 @@ function App() {
             </p>
             <div className="hero-actions">
               <a className="primary-button" href={phoneHref}>
-                Call {phone}
+                Plan Your Landscape Project
               </a>
               <a className="secondary-button" href="#work">
                 See Our Work
@@ -204,11 +270,15 @@ function App() {
               <article className="transformation-card" key={item.title}>
                 <div className="before-after">
                   <figure>
-                    <img src={item.before} alt={`${item.title} before`} />
+                    <button type="button" onClick={() => setExpandedPhoto({ image: item.before, label: `${item.title} before` })} aria-label={`Enlarge ${item.title} before photo`}>
+                      <img src={item.before} alt={`${item.title} before`} />
+                    </button>
                     <figcaption>Before</figcaption>
                   </figure>
                   <figure>
-                    <img src={item.after} alt={`${item.title} after`} />
+                    <button type="button" onClick={() => setExpandedPhoto({ image: item.after, label: `${item.title} after` })} aria-label={`Enlarge ${item.title} after photo`}>
+                      <img src={item.after} alt={`${item.title} after`} />
+                    </button>
                     <figcaption>After</figcaption>
                   </figure>
                 </div>
@@ -221,6 +291,17 @@ function App() {
           </div>
         </section>
 
+        {expandedPhoto && (
+          <div className="photo-lightbox" role="dialog" aria-modal="true" aria-label={expandedPhoto.label} onClick={() => setExpandedPhoto(null)}>
+            <div className="lightbox-content" onClick={(event) => event.stopPropagation()}>
+              <button className="lightbox-close" type="button" onClick={() => setExpandedPhoto(null)} autoFocus aria-label="Close enlarged photo">
+                ×
+              </button>
+              <img src={expandedPhoto.image} alt={expandedPhoto.label} />
+            </div>
+          </div>
+        )}
+
         <section className="gallery-section" aria-labelledby="gallery-heading">
           <div className="section-heading">
             <p className="eyebrow">Finished Projects</p>
@@ -229,8 +310,24 @@ function App() {
 
           <div className="gallery-grid">
             {gallery.map((item, index) => (
-              <figure className={index === 0 || index === 1 ? 'gallery-item wide' : 'gallery-item'} key={item.label}>
-                <img src={item.image} alt={item.label} />
+              <figure
+                className={`gallery-item${featuredPhoto === index ? ' featured' : ''}`}
+                key={item.label}
+                style={{
+                  viewTransitionName: `gallery-photo-${index}`,
+                  '--feature-column': featuredPositions[index].column,
+                  '--feature-row': featuredPositions[index].row,
+                }}
+              >
+                <button
+                  className="gallery-button"
+                  type="button"
+                  onClick={() => featurePhoto(index)}
+                  aria-label={`Feature ${item.label} as the large gallery photo`}
+                  aria-pressed={featuredPhoto === index}
+                >
+                  <img src={item.image} alt={item.label} />
+                </button>
               </figure>
             ))}
           </div>
@@ -278,7 +375,7 @@ function App() {
             </p>
             <div className="contact-actions">
               <a className="primary-button" href={phoneHref}>
-                Call {phone}
+                Schedule Lawn Service
               </a>
               <a className="secondary-button dark" href="https://www.facebook.com/etcustomlandscaping" target="_blank" rel="noreferrer">
                 Facebook
