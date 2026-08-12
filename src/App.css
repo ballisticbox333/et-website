@@ -893,6 +893,9 @@ blockquote {
 
   .gallery-grid {
     aspect-ratio: auto;
+    gap: 10px;
+    grid-auto-flow: dense;
+    grid-auto-rows: calc((100vw - 46px) / 2);
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: none;
   }
@@ -903,8 +906,8 @@ blockquote {
   }
 
   .gallery-item.featured {
-    grid-column: var(--feature-column) / span 2;
-    grid-row: var(--feature-row) / span 2;
+    grid-column: span 2;
+    grid-row: span 2;
   }
 
   .service-area-section {

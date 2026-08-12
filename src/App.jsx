@@ -324,7 +324,6 @@ function App() {
                   type="button"
                   onClick={() => featurePhoto(index)}
                   aria-label={`Feature ${item.label} as the large gallery photo`}
-                  aria-pressed={featuredPhoto === index}
                 >
                   <img src={item.image} alt={item.label} />
                 </button>
