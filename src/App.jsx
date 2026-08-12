@@ -26,14 +26,14 @@ const phone = '904-775-0383'
 const phoneHref = 'tel:+19047750383'
 
 const services = [
-  'Landscape maintenance',
-  'Property cleanups',
-  'Tree and hedge trimming',
-  'Mulch installation',
-  'Rock installation',
-  'Lawn care',
-  'Drainage and irrigation adjustments',
-  'Full landscaping projects',
+  { name: 'Landscape maintenance', detail: 'Consistent care that keeps your property sharp.' },
+  { name: 'Property cleanups', detail: 'Clear overgrowth and restore curb appeal.' },
+  { name: 'Tree and hedge trimming', detail: 'Clean shaping for a polished, maintained look.' },
+  { name: 'Mulch installation', detail: 'Fresh coverage with crisp, finished edges.' },
+  { name: 'Rock installation', detail: 'Low-maintenance beds built for lasting appeal.' },
+  { name: 'Lawn care', detail: 'Dependable service for a cleaner, healthier lawn.' },
+  { name: 'Drainage and irrigation adjustments', detail: 'Practical solutions for better water flow.' },
+  { name: 'Full landscaping projects', detail: 'Complete outdoor upgrades from plan to finish.' },
 ]
 
 const transformations = [
@@ -246,8 +246,12 @@ function App() {
 
           <div className="service-grid">
             {services.map((service) => (
-              <div className="service-card" key={service}>
-                <h3>{service}</h3>
+              <div className="service-card" key={service.name}>
+                <span className="service-marker" aria-hidden="true" />
+                <div>
+                  <h3>{service.name}</h3>
+                  <p>{service.detail}</p>
+                </div>
               </div>
             ))}
           </div>
