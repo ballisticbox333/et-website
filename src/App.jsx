@@ -571,7 +571,6 @@ function LandscapingPage() {
         <section className="section landscape-proof">
           <div className="section-heading"><p className="eyebrow dark">Real Project Results</p><h2>See the difference thoughtful landscaping can make.</h2></div>
           <div className="proof-grid">
-            <img src={frontBefore} alt="Front landscape before redesign" />
             <img src={frontAfter} alt="Front landscape after redesign" />
             <img src={palmMulch} alt="Finished palm and mulch landscape" />
             <img src={frontLandscape} alt="Finished front landscaping project" />
