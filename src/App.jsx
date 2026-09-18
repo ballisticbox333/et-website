@@ -26,6 +26,7 @@ import pushMower from './assets/work/push-mower.jpg'
 
 const phone = '904-775-0383'
 const phoneHref = 'tel:+19047750383'
+const applicationEndpoint = ''
 
 const transformations = [
   {
@@ -586,6 +587,132 @@ function LandscapingPage() {
   )
 }
 
+const applicationQuestions = [
+  {
+    id: 'pastMistake',
+    label: 'Tell us about a mistake you made at a past job. What happened, and what did you learn from it?',
+  },
+  {
+    id: 'workplaceDisagreement',
+    label: 'Tell us about a time you disagreed with a boss, manager, or coworker about how something should be done. How did you handle it?',
+  },
+  {
+    id: 'taskTracking',
+    label: 'How do you personally make sure important tasks do not get forgotten or skipped?',
+  },
+  {
+    id: 'feedbackPreference',
+    label: 'How do you prefer to receive feedback or correction?',
+  },
+  {
+    id: 'outdoorExperience',
+    label: 'How much experience do you have in lawn maintenance or working outdoors in Florida?',
+  },
+  {
+    id: 'workStyle',
+    label: 'Do you work better individually or as part of a team? Please explain.',
+  },
+  {
+    id: 'availability',
+    label: 'What is your availability? Please include the days and times you can work.',
+  },
+  {
+    id: 'machineryExperience',
+    label: 'What machinery are you proficient in? What are your weak spots?',
+  },
+]
+
+function ApplicationPage() {
+  const [submissionState, setSubmissionState] = useState('idle')
+
+  const submitApplication = async (event) => {
+    event.preventDefault()
+
+    if (!applicationEndpoint) {
+      setSubmissionState('not-connected')
+      return
+    }
+
+    const form = event.currentTarget
+    const formData = new FormData(form)
+    formData.append('submittedAt', new Date().toISOString())
+    setSubmissionState('submitting')
+
+    try {
+      await fetch(applicationEndpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: new URLSearchParams(formData),
+      })
+      form.reset()
+      setSubmissionState('success')
+    } catch {
+      setSubmissionState('error')
+    }
+  }
+
+  return (
+    <div className="application-page">
+      <header className="application-header">
+        <a className="brand" href="#/" aria-label="E.T. Custom Landscaping home">
+          <img src={logo} alt="" />
+          <span>E.T. Custom Landscaping</span>
+        </a>
+        <span className="application-header-label">Employment Application</span>
+      </header>
+
+      <main className="application-main">
+        <section className="application-intro" aria-labelledby="application-title">
+          <p className="eyebrow">Join Our Team</p>
+          <h1 id="application-title">Application Questionnaire</h1>
+          <p>Tell us about your experience, availability, and how you approach your work. Please answer every question thoughtfully.</p>
+        </section>
+
+        <form className="application-form" onSubmit={submitApplication}>
+          <input type="hidden" name="source" value="Indeed application page" />
+
+          <div className="application-field">
+            <label htmlFor="fullName">Please fill out your name.</label>
+            <input id="fullName" name="fullName" type="text" autoComplete="name" required />
+          </div>
+
+          <div className="application-field">
+            <label htmlFor="phoneNumber">Please provide your phone number.</label>
+            <input id="phoneNumber" name="phoneNumber" type="tel" inputMode="tel" autoComplete="tel" required />
+          </div>
+
+          {applicationQuestions.map((question) => (
+            <div className="application-field" key={question.id}>
+              <label htmlFor={question.id}>{question.label}</label>
+              <textarea id={question.id} name={question.id} rows="5" required />
+            </div>
+          ))}
+
+          <div className="application-submit-area">
+            <p>Review your answers before submitting. All fields are required.</p>
+            <button className="application-submit" type="submit" disabled={submissionState === 'submitting'}>
+              {submissionState === 'submitting' ? 'Submitting…' : 'Submit Application'}
+            </button>
+            <div className="application-status" aria-live="polite">
+              {submissionState === 'not-connected' && (
+                <p className="status-notice">Online submissions are not connected yet. Your answers are still on this page and have not been sent.</p>
+              )}
+              {submissionState === 'success' && (
+                <p className="status-success">Thank you. Your application has been submitted.</p>
+              )}
+              {submissionState === 'error' && (
+                <p className="status-error">Your application could not be submitted. Please check your connection and try again.</p>
+              )}
+            </div>
+          </div>
+        </form>
+
+        <p className="application-privacy">The information you provide will be used only to review your application with E.T. Custom Landscaping.</p>
+      </main>
+    </div>
+  )
+}
+
 function App() {
   const [route, setRoute] = useState(window.location.hash)
 
@@ -598,6 +725,16 @@ function App() {
     return () => window.removeEventListener('hashchange', updateRoute)
   }, [])
 
+  useEffect(() => {
+    const pageTitles = {
+      '#/apply': 'Employment Application | E.T. Custom Landscaping',
+      '#/lawn-maintenance': 'Lawn Maintenance | E.T. Custom Landscaping',
+      '#/landscaping': 'Landscaping | E.T. Custom Landscaping',
+    }
+    document.title = pageTitles[route] || 'E.T. Custom Landscaping'
+  }, [route])
+
+  if (route === '#/apply') return <ApplicationPage />
   if (route === '#/lawn-maintenance') return <LawnMaintenancePage />
   if (route === '#/landscaping') return <LandscapingPage />
   return <HomePage />
