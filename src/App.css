@@ -939,6 +939,272 @@ blockquote {
   grid-column: 1 / -1;
 }
 
+.contact-page {
+  background: var(--soft);
+  min-height: 100vh;
+}
+
+.contact-page-main {
+  overflow: hidden;
+}
+
+.contact-page-intro {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(111, 189, 47, 0.24), transparent 28rem),
+    var(--green-deep);
+  color: var(--white);
+  padding: clamp(62px, 9vw, 120px) max(20px, calc((100vw - 1120px) / 2));
+}
+
+.contact-page-intro h1 {
+  font-size: clamp(3rem, 7vw, 6.3rem);
+  line-height: 0.94;
+  margin: 14px 0 24px;
+  max-width: 900px;
+}
+
+.contact-page-intro > p:last-child {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.6;
+  margin-bottom: 0;
+  max-width: 650px;
+}
+
+.contact-preference-card {
+  margin: clamp(-38px, -4vw, -24px) auto 0;
+  max-width: 1160px;
+  padding: 0 20px clamp(70px, 9vw, 110px);
+  position: relative;
+}
+
+.contact-service-choice {
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 9px 9px 0 0;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  padding: 23px clamp(22px, 4vw, 38px);
+}
+
+.contact-service-choice label {
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  font-weight: 850;
+}
+
+.contact-service-choice select,
+.contact-email-field input,
+.contact-email-field select,
+.contact-email-field textarea {
+  background: #fbfcfa;
+  border: 1px solid rgba(7, 17, 11, 0.25);
+  border-radius: 6px;
+  color: var(--black);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding: 13px 14px;
+}
+
+.contact-service-choice select {
+  max-width: 360px;
+  min-height: 50px;
+  width: 100%;
+}
+
+.contact-method-grid {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.contact-method-card {
+  align-items: flex-start;
+  background: var(--white);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  padding: clamp(26px, 4vw, 40px);
+}
+
+.contact-method-card:first-child {
+  border-radius: 0 0 0 9px;
+}
+
+.contact-method-card:last-child {
+  border-radius: 0 0 9px 0;
+}
+
+.featured-contact-method {
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.contact-method-number {
+  color: var(--green-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin: 0 0 24px;
+}
+
+.featured-contact-method .contact-method-number {
+  color: var(--green);
+}
+
+.contact-method-card h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0 0 12px;
+}
+
+.contact-method-card > p:not(.contact-method-number) {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+.featured-contact-method > p:not(.contact-method-number) {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.contact-method-button {
+  align-items: center;
+  background: var(--green);
+  border-radius: 6px;
+  display: inline-flex;
+  font-weight: 900;
+  justify-content: center;
+  margin-top: auto;
+  min-height: 48px;
+  padding: 0 19px;
+}
+
+.contact-method-card:not(.featured-contact-method) .contact-method-button {
+  background: var(--green-deep);
+  color: var(--white);
+}
+
+.contact-method-button:hover,
+.contact-method-button:focus-visible {
+  filter: brightness(1.08);
+}
+
+.contact-method-button:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 3px;
+}
+
+.contact-email-section {
+  background: var(--white);
+  padding: clamp(70px, 9vw, 115px) max(20px, calc((100vw - 1120px) / 2));
+}
+
+.contact-email-heading {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+  margin-bottom: 42px;
+}
+
+.contact-email-heading .eyebrow {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+
+.contact-email-heading h2 {
+  margin: 0;
+}
+
+.contact-email-heading > p:last-child {
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 4px 0 0;
+}
+
+.contact-email-form {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: grid;
+  gap: 22px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: clamp(24px, 5vw, 48px);
+}
+
+.contact-email-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.contact-email-field label {
+  font-size: 0.94rem;
+  font-weight: 850;
+}
+
+.contact-email-field input,
+.contact-email-field select {
+  min-height: 51px;
+  width: 100%;
+}
+
+.contact-email-field textarea {
+  min-height: 155px;
+  resize: vertical;
+  width: 100%;
+}
+
+.contact-service-choice select:focus,
+.contact-email-field input:focus,
+.contact-email-field select:focus,
+.contact-email-field textarea:focus {
+  background: var(--white);
+  border-color: var(--green-dark);
+  box-shadow: 0 0 0 4px rgba(111, 189, 47, 0.17);
+  outline: none;
+}
+
+.contact-email-wide {
+  grid-column: 1 / -1;
+}
+
+.contact-email-submit {
+  align-items: center;
+  display: flex;
+  gap: 18px;
+}
+
+.contact-email-submit button {
+  background: var(--green-deep);
+  border: 0;
+  border-radius: 6px;
+  color: var(--white);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  min-height: 51px;
+  padding: 0 24px;
+}
+
+.contact-email-submit button:hover {
+  background: var(--green-dark);
+}
+
+.contact-email-submit button:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 3px;
+}
+
+.contact-email-submit p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
 .application-page {
   background:
     radial-gradient(circle at 92% 6%, rgba(111, 189, 47, 0.16), transparent 30rem),
@@ -1168,6 +1434,23 @@ blockquote {
     flex-direction: column;
     grid-template-columns: 1fr;
   }
+
+  .contact-method-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-method-card {
+    min-height: 0;
+  }
+
+  .contact-method-card:first-child,
+  .contact-method-card:last-child {
+    border-radius: 0;
+  }
+
+  .contact-method-card:last-child {
+    border-radius: 0 0 9px 9px;
+  }
 }
 
 @media (max-width: 620px) {
@@ -1202,6 +1485,67 @@ blockquote {
 
   .application-header-label {
     font-size: 0.72rem;
+  }
+
+  .contact-page-intro {
+    padding: 58px 18px 72px;
+  }
+
+  .contact-page-intro h1 {
+    font-size: clamp(2.55rem, 13vw, 3.6rem);
+    overflow-wrap: anywhere;
+  }
+
+  .contact-preference-card {
+    margin-top: -30px;
+    padding: 0 14px 64px;
+  }
+
+  .contact-service-choice {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 13px;
+    padding: 22px 18px;
+  }
+
+  .contact-service-choice select {
+    max-width: none;
+  }
+
+  .contact-method-card {
+    padding: 27px 19px;
+  }
+
+  .contact-method-button {
+    width: 100%;
+  }
+
+  .contact-email-section {
+    padding: 64px 14px;
+  }
+
+  .contact-email-heading,
+  .contact-email-form {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-email-heading .eyebrow,
+  .contact-email-wide {
+    grid-column: auto;
+  }
+
+  .contact-email-form {
+    gap: 19px;
+    padding: 23px 18px;
+  }
+
+  .contact-email-submit {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .contact-email-submit button {
+    width: 100%;
   }
 
   .application-main {

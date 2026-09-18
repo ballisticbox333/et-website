@@ -26,6 +26,10 @@ import pushMower from './assets/work/push-mower.jpg'
 
 const phone = '904-775-0383'
 const phoneHref = 'tel:+19047750383'
+const email = 'ETCustomLandscaping@gmail.com'
+const generalContactHref = '#/contact'
+const lawnContactHref = '#/contact?service=lawn-maintenance'
+const landscapingContactHref = '#/contact?service=landscaping'
 const applicationEndpoint = ''
 
 const transformations = [
@@ -174,10 +178,10 @@ function HomePage() {
           <a href="#work" onClick={closeMenu}>Work</a>
           <a href="#reviews" onClick={closeMenu}>Reviews</a>
           <a href="#contact" onClick={closeMenu}>Contact</a>
-          <a className="nav-mobile-call" href={phoneHref} onClick={closeMenu}>Talk About Your Property</a>
+          <a className="nav-mobile-call" href={generalContactHref} onClick={closeMenu}>Contact Us</a>
         </nav>
 
-        <a className="header-call" href={phoneHref}>
+        <a className="header-call" href={generalContactHref}>
           Talk About Your Property
         </a>
       </header>
@@ -201,7 +205,7 @@ function HomePage() {
               projects handled by a local crew that keeps the finished result sharp.
             </p>
             <div className="hero-actions">
-              <a className="primary-button" href={phoneHref}>
+              <a className="primary-button" href={landscapingContactHref}>
                 Plan Your Landscape Project
               </a>
               <a className="secondary-button" href="#work">
@@ -384,7 +388,7 @@ function HomePage() {
               We serve Duval County, St. Johns County, and the Beaches.
             </p>
             <div className="contact-actions">
-              <a className="primary-button" href={phoneHref}>
+              <a className="primary-button" href={lawnContactHref}>
                 Schedule Lawn Service
               </a>
               <a className="secondary-button dark" href="https://www.facebook.com/etcustomlandscaping" target="_blank" rel="noreferrer">
@@ -430,9 +434,9 @@ function InteriorHeader() {
         <a href="#/">Home</a>
         <a href="#/lawn-maintenance">Lawn Maintenance</a>
         <a href="#/landscaping">Landscaping</a>
-        <a className="nav-mobile-call" href={phoneHref}>Talk About Your Property</a>
+        <a className="nav-mobile-call" href={generalContactHref}>Contact Us</a>
       </nav>
-      <a className="header-call" href={phoneHref}>Talk About Your Property</a>
+      <a className="header-call" href={generalContactHref}>Talk About Your Property</a>
     </header>
   )
 }
@@ -457,7 +461,7 @@ function LawnMaintenancePage() {
             <p className="eyebrow">Dedicated Lawn Maintenance</p>
             <h1>Lawn maintenance built around your property.</h1>
             <p>Reliable, professional lawn service for homeowners throughout Duval County, St. Johns County, and the Beaches. Choose the level of care you need and the mower that best suits your lawn.</p>
-            <a className="primary-button" href={phoneHref}>Call to Discuss Your Lawn</a>
+            <a className="primary-button" href={lawnContactHref}>Discuss Your Lawn</a>
           </div>
         </section>
 
@@ -473,14 +477,14 @@ function LawnMaintenancePage() {
               <p className="package-price"><span>Starting at</span>$165 <small>/ month</small></p>
               <p>Dependable routine service covering the essentials your lawn needs for a clean, finished appearance.</p>
               <ul><li>Mowing</li><li>Edging</li><li>Weed eating</li><li>Blowing off hard surfaces</li></ul>
-              <a className="primary-button" href={phoneHref}>Ask About Basic Service</a>
+              <a className="primary-button" href={lawnContactHref}>Ask About Basic Service</a>
             </article>
             <article className="package-card featured-package">
               <p className="package-label">Full Service</p>
               <p className="package-price"><span>Starting at</span>$185 <small>/ month</small></p>
               <p>Our more complete package for homeowners who want the lawn and landscape beds kept consistently presentable.</p>
               <ul><li>Everything in Basic Service</li><li>Hedge trimming</li><li>Weed control in landscape beds</li></ul>
-              <a className="primary-button" href={phoneHref}>Ask About Full Service</a>
+              <a className="primary-button" href={lawnContactHref}>Ask About Full Service</a>
             </article>
           </div>
           <p className="pricing-note">Final monthly pricing depends on the property’s size, layout, access, condition, and maintenance needs. Push-mower service is available at an additional cost.</p>
@@ -524,7 +528,7 @@ function LawnMaintenancePage() {
           <div className="contact-card">
             <p className="eyebrow dark">Let’s Find the Right Service</p>
             <h2>Compare packages and choose the right mowing style for your lawn.</h2>
-            <div className="contact-actions"><a className="primary-button" href={phoneHref}>Call {phone}</a></div>
+            <div className="contact-actions"><a className="primary-button" href={lawnContactHref}>Choose How to Contact Us</a></div>
           </div>
         </section>
       </main>
@@ -553,7 +557,7 @@ function LandscapingPage() {
             <p className="eyebrow">Dedicated Landscaping Crew</p>
             <h1>Landscaping that makes your property look finished.</h1>
             <p>From focused refreshes to complete transformations, we improve curb appeal, solve problem areas, and create outdoor spaces that feel properly cared for.</p>
-            <a className="primary-button" href={phoneHref}>Plan Your Landscape Project</a>
+            <a className="primary-button" href={landscapingContactHref}>Plan Your Landscape Project</a>
           </div>
         </section>
 
@@ -579,10 +583,145 @@ function LandscapingPage() {
         </section>
 
         <section className="contact-section interior-contact">
-          <div className="contact-card"><p className="eyebrow dark">Ready to Improve Your Property?</p><h2>Tell us what you want to change and we’ll talk through the right next step.</h2><div className="contact-actions"><a className="primary-button" href={phoneHref}>Talk About Your Property</a></div></div>
+          <div className="contact-card"><p className="eyebrow dark">Ready to Improve Your Property?</p><h2>Tell us what you want to change and we’ll talk through the right next step.</h2><div className="contact-actions"><a className="primary-button" href={landscapingContactHref}>Talk About Your Property</a></div></div>
         </section>
       </main>
       <InteriorFooter />
+    </div>
+  )
+}
+
+const serviceLabels = {
+  'lawn-maintenance': 'Lawn Maintenance',
+  landscaping: 'Landscaping',
+}
+
+function ContactPage({ initialService }) {
+  const [service, setService] = useState(serviceLabels[initialService] ? initialService : '')
+  const [emailForm, setEmailForm] = useState({
+    name: '',
+    phoneNumber: '',
+    propertyAddress: '',
+    message: '',
+  })
+
+  const selectedService = serviceLabels[service] || 'lawn maintenance or landscaping services'
+  const textMessage = `Hi E.T. Custom Landscaping! I'm interested in ${selectedService.toLowerCase()}. I'd like to talk about my property.`
+  const textHref = `sms:+19047750383?body=${encodeURIComponent(textMessage)}`
+
+  const updateEmailField = (event) => {
+    const { name, value } = event.target
+    setEmailForm((current) => ({ ...current, [name]: value }))
+  }
+
+  const prepareEmail = (event) => {
+    event.preventDefault()
+    const subject = `Website inquiry: ${serviceLabels[service]}`
+    const body = [
+      'Hello E.T. Custom Landscaping,',
+      '',
+      `Name: ${emailForm.name}`,
+      `Phone: ${emailForm.phoneNumber}`,
+      `Property address: ${emailForm.propertyAddress}`,
+      `Service requested: ${serviceLabels[service]}`,
+      '',
+      'Message:',
+      emailForm.message,
+    ].join('\n')
+
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
+
+  return (
+    <div className="contact-page">
+      <header className="application-header">
+        <a className="brand" href="#/" aria-label="E.T. Custom Landscaping home">
+          <img src={logo} alt="" />
+          <span>E.T. Custom Landscaping</span>
+        </a>
+        <span className="application-header-label">Contact Our Team</span>
+      </header>
+
+      <main className="contact-page-main">
+        <section className="contact-page-intro" aria-labelledby="contact-page-title">
+          <p className="eyebrow">Let’s Talk About Your Property</p>
+          <h1 id="contact-page-title">Call, text, or send us an email.</h1>
+          <p>Choose what you need and the easiest way to reach us. Text messages are always welcome.</p>
+        </section>
+
+        <section className="contact-preference-card" aria-labelledby="service-choice-title">
+          <div className="contact-service-choice">
+            <label htmlFor="contactService" id="service-choice-title">What are you interested in?</label>
+            <select id="contactService" value={service} onChange={(event) => setService(event.target.value)}>
+              <option value="">Choose a service</option>
+              <option value="lawn-maintenance">Lawn Maintenance</option>
+              <option value="landscaping">Landscaping</option>
+            </select>
+          </div>
+
+          <div className="contact-method-grid">
+            <article className="contact-method-card">
+              <p className="contact-method-number">01</p>
+              <h2>Call</h2>
+              <p>Speak with us directly about your property and the service you need.</p>
+              <a className="contact-method-button" href={phoneHref}>Call {phone}</a>
+            </article>
+
+            <article className="contact-method-card featured-contact-method">
+              <p className="contact-method-number">02</p>
+              <h2>Text</h2>
+              <p>Text messages are welcome. We’ll start one with a short message already filled in.</p>
+              <a className="contact-method-button" href={textHref}>Text {phone}</a>
+            </article>
+
+            <article className="contact-method-card">
+              <p className="contact-method-number">03</p>
+              <h2>Email</h2>
+              <p>Answer a few quick questions below and we’ll prepare the email for you.</p>
+              <a className="contact-method-button contact-method-jump" href="#email-questionnaire">Prepare an Email</a>
+            </article>
+          </div>
+        </section>
+
+        <section className="contact-email-section" id="email-questionnaire" aria-labelledby="email-questionnaire-title">
+          <div className="contact-email-heading">
+            <p className="eyebrow dark">Email Questionnaire</p>
+            <h2 id="email-questionnaire-title">Tell us what your property needs.</h2>
+            <p>When you continue, your email app will open with these details addressed to {email}. Nothing is sent until you review the email and press Send.</p>
+          </div>
+
+          <form className="contact-email-form" onSubmit={prepareEmail}>
+            <div className="contact-email-field">
+              <label htmlFor="contactName">Name</label>
+              <input id="contactName" name="name" type="text" autoComplete="name" value={emailForm.name} onChange={updateEmailField} required />
+            </div>
+            <div className="contact-email-field">
+              <label htmlFor="contactPhone">Phone number</label>
+              <input id="contactPhone" name="phoneNumber" type="tel" inputMode="tel" autoComplete="tel" value={emailForm.phoneNumber} onChange={updateEmailField} required />
+            </div>
+            <div className="contact-email-field contact-email-wide">
+              <label htmlFor="propertyAddress">Property address</label>
+              <input id="propertyAddress" name="propertyAddress" type="text" autoComplete="street-address" value={emailForm.propertyAddress} onChange={updateEmailField} required />
+            </div>
+            <div className="contact-email-field contact-email-wide">
+              <label htmlFor="emailService">Service</label>
+              <select id="emailService" value={service} onChange={(event) => setService(event.target.value)} required>
+                <option value="">Choose a service</option>
+                <option value="lawn-maintenance">Lawn Maintenance</option>
+                <option value="landscaping">Landscaping</option>
+              </select>
+            </div>
+            <div className="contact-email-field contact-email-wide">
+              <label htmlFor="contactMessage">How can we help?</label>
+              <textarea id="contactMessage" name="message" rows="7" value={emailForm.message} onChange={updateEmailField} placeholder="Tell us about the property, what you would like done, and any questions you have." required />
+            </div>
+            <div className="contact-email-submit contact-email-wide">
+              <button type="submit">Open My Email</button>
+              <p>You’ll have a chance to review everything before sending.</p>
+            </div>
+          </form>
+        </section>
+      </main>
     </div>
   )
 }
@@ -715,6 +854,8 @@ function ApplicationPage() {
 
 function App() {
   const [route, setRoute] = useState(window.location.hash)
+  const [routePath, queryString = ''] = route.split('?')
+  const contactService = new URLSearchParams(queryString).get('service') || ''
 
   useEffect(() => {
     const updateRoute = () => {
@@ -727,16 +868,18 @@ function App() {
 
   useEffect(() => {
     const pageTitles = {
+      '#/contact': 'Contact Us | E.T. Custom Landscaping',
       '#/apply': 'Employment Application | E.T. Custom Landscaping',
       '#/lawn-maintenance': 'Lawn Maintenance | E.T. Custom Landscaping',
       '#/landscaping': 'Landscaping | E.T. Custom Landscaping',
     }
-    document.title = pageTitles[route] || 'E.T. Custom Landscaping'
-  }, [route])
+    document.title = pageTitles[routePath] || 'E.T. Custom Landscaping'
+  }, [routePath])
 
-  if (route === '#/apply') return <ApplicationPage />
-  if (route === '#/lawn-maintenance') return <LawnMaintenancePage />
-  if (route === '#/landscaping') return <LandscapingPage />
+  if (routePath === '#/contact') return <ContactPage initialService={contactService} />
+  if (routePath === '#/apply') return <ApplicationPage />
+  if (routePath === '#/lawn-maintenance') return <LawnMaintenancePage />
+  if (routePath === '#/landscaping') return <LandscapingPage />
   return <HomePage />
 }
 
