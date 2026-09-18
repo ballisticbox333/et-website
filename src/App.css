@@ -939,142 +939,6 @@ blockquote {
   grid-column: 1 / -1;
 }
 
-.contact-prompt-trigger {
-  border: 0;
-  cursor: pointer;
-  font: inherit;
-}
-
-.footer-contact-button {
-  background: transparent;
-  color: var(--green);
-  font-weight: 900;
-  padding: 0;
-}
-
-.footer-contact-button:focus-visible {
-  outline: 3px solid var(--white);
-  outline-offset: 4px;
-}
-
-.contact-prompt-overlay {
-  align-items: center;
-  background: rgba(2, 8, 4, 0.78);
-  display: flex;
-  inset: 0;
-  justify-content: center;
-  padding: 20px;
-  position: fixed;
-  z-index: 100;
-}
-
-.contact-prompt-dialog {
-  background: var(--white);
-  border-radius: 12px;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
-  max-height: calc(100vh - 40px);
-  max-width: 720px;
-  overflow-y: auto;
-  padding: clamp(28px, 5vw, 46px);
-  position: relative;
-  width: 100%;
-}
-
-.contact-prompt-close {
-  align-items: center;
-  background: var(--soft);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--black);
-  cursor: pointer;
-  display: flex;
-  font-size: 1.7rem;
-  height: 42px;
-  justify-content: center;
-  line-height: 1;
-  position: absolute;
-  right: 18px;
-  top: 18px;
-  width: 42px;
-}
-
-.contact-prompt-dialog h2 {
-  font-size: clamp(2rem, 5vw, 3.6rem);
-  line-height: 1;
-  margin: 12px 48px 16px 0;
-}
-
-.contact-prompt-dialog > p:not(.eyebrow) {
-  color: var(--muted);
-  line-height: 1.6;
-  max-width: 600px;
-}
-
-.contact-prompt-service {
-  display: flex;
-  flex-direction: column;
-  font-weight: 850;
-  gap: 9px;
-  margin: 26px 0;
-}
-
-.contact-prompt-service select {
-  background: var(--soft);
-  border: 1px solid rgba(7, 17, 11, 0.25);
-  border-radius: 6px;
-  color: var(--black);
-  font: inherit;
-  min-height: 50px;
-  padding: 0 13px;
-  width: 100%;
-}
-
-.contact-prompt-service select:focus {
-  border-color: var(--green-dark);
-  box-shadow: 0 0 0 4px rgba(111, 189, 47, 0.17);
-  outline: none;
-}
-
-.contact-prompt-options {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.contact-prompt-options a {
-  background: var(--green-deep);
-  border-radius: 7px;
-  color: var(--white);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  justify-content: center;
-  min-height: 96px;
-  padding: 16px;
-  text-align: center;
-}
-
-.contact-prompt-options a.preferred {
-  background: var(--green);
-  color: var(--black);
-}
-
-.contact-prompt-options strong {
-  font-size: 1.12rem;
-}
-
-.contact-prompt-options span {
-  font-size: 0.82rem;
-  opacity: 0.72;
-}
-
-.contact-prompt-options a:hover,
-.contact-prompt-options a:focus-visible,
-.contact-prompt-close:focus-visible {
-  outline: 3px solid var(--green);
-  outline-offset: 3px;
-}
-
 .contact-page {
   background: var(--soft);
   min-height: 100vh;
@@ -1114,23 +978,6 @@ blockquote {
   position: relative;
 }
 
-.contact-service-choice {
-  align-items: center;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 9px 9px 0 0;
-  display: flex;
-  gap: 24px;
-  justify-content: space-between;
-  padding: 23px clamp(22px, 4vw, 38px);
-}
-
-.contact-service-choice label {
-  font-size: clamp(1.05rem, 2vw, 1.3rem);
-  font-weight: 850;
-}
-
-.contact-service-choice select,
 .contact-email-field input,
 .contact-email-field select,
 .contact-email-field textarea {
@@ -1142,12 +989,6 @@ blockquote {
   font-size: 1rem;
   line-height: 1.5;
   padding: 13px 14px;
-}
-
-.contact-service-choice select {
-  max-width: 360px;
-  min-height: 50px;
-  width: 100%;
 }
 
 .contact-method-grid {
@@ -1167,11 +1008,11 @@ blockquote {
 }
 
 .contact-method-card:first-child {
-  border-radius: 0 0 0 9px;
+  border-radius: 9px 0 0 9px;
 }
 
 .contact-method-card:last-child {
-  border-radius: 0 0 9px 0;
+  border-radius: 0 9px 9px 0;
 }
 
 .featured-contact-method {
@@ -1216,6 +1057,12 @@ blockquote {
   margin-top: auto;
   min-height: 48px;
   padding: 0 19px;
+}
+
+button.contact-method-button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
 }
 
 .contact-method-card:not(.featured-contact-method) .contact-method-button {
@@ -1293,7 +1140,6 @@ blockquote {
   width: 100%;
 }
 
-.contact-service-choice select:focus,
 .contact-email-field input:focus,
 .contact-email-field select:focus,
 .contact-email-field textarea:focus {
@@ -1584,6 +1430,10 @@ blockquote {
     border-radius: 0;
   }
 
+  .contact-method-card:first-child {
+    border-radius: 9px 9px 0 0;
+  }
+
   .contact-method-card:last-child {
     border-radius: 0 0 9px 9px;
   }
@@ -1623,29 +1473,6 @@ blockquote {
     font-size: 0.72rem;
   }
 
-  .contact-prompt-overlay {
-    align-items: flex-end;
-    padding: 0;
-  }
-
-  .contact-prompt-dialog {
-    border-radius: 16px 16px 0 0;
-    max-height: 92vh;
-    padding: 30px 18px calc(24px + env(safe-area-inset-bottom));
-  }
-
-  .contact-prompt-dialog h2 {
-    font-size: clamp(2rem, 10vw, 2.8rem);
-  }
-
-  .contact-prompt-options {
-    grid-template-columns: 1fr;
-  }
-
-  .contact-prompt-options a {
-    min-height: 72px;
-  }
-
   .contact-page-intro {
     padding: 58px 18px 72px;
   }
@@ -1658,17 +1485,6 @@ blockquote {
   .contact-preference-card {
     margin-top: -30px;
     padding: 0 14px 64px;
-  }
-
-  .contact-service-choice {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 13px;
-    padding: 22px 18px;
-  }
-
-  .contact-service-choice select {
-    max-width: none;
   }
 
   .contact-method-card {
