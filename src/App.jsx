@@ -1,6 +1,6 @@
 import './App.css'
 import { useEffect, useState } from 'react'
-import { flushSync } from 'react-dom'
+import { createPortal, flushSync } from 'react-dom'
 
 import logo from './assets/ET-custom-logo.png'
 import heroLandscape from './assets/work/hero-front-landscape.jpg'
@@ -27,9 +27,6 @@ import pushMower from './assets/work/push-mower.jpg'
 const phone = '904-775-0383'
 const phoneHref = 'tel:+19047750383'
 const email = 'ETCustomLandscaping@gmail.com'
-const generalContactHref = '#/contact'
-const lawnContactHref = '#/contact?service=lawn-maintenance'
-const landscapingContactHref = '#/contact?service=landscaping'
 const applicationEndpoint = ''
 
 const transformations = [
@@ -116,6 +113,83 @@ const reviews = [
   },
 ]
 
+function ContactPromptButton({ service = '', className = '', children, onOpen }) {
+  const [open, setOpen] = useState(false)
+  const [selectedService, setSelectedService] = useState(service)
+  const serviceName = serviceLabels[selectedService] || 'our services'
+  const textMessage = `Hi E.T. Custom Landscaping! I'm interested in ${serviceName.toLowerCase()}. I'd like to talk about my property.`
+  const textHref = `sms:+19047750383?body=${encodeURIComponent(textMessage)}`
+  const emailHref = `#/contact?${new URLSearchParams({
+    ...(selectedService ? { service: selectedService } : {}),
+    method: 'email',
+  }).toString()}`
+
+  const openPrompt = () => {
+    setSelectedService(service)
+    setOpen(true)
+    onOpen?.()
+  }
+
+  useEffect(() => {
+    if (!open) return undefined
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [open])
+
+  return (
+    <>
+      <button className={`${className} contact-prompt-trigger`.trim()} type="button" onClick={openPrompt}>
+        {children}
+      </button>
+      {open && createPortal(
+        <div className="contact-prompt-overlay" role="presentation" onClick={() => setOpen(false)}>
+          <section className="contact-prompt-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-prompt-title" onClick={(event) => event.stopPropagation()}>
+            <button className="contact-prompt-close" type="button" onClick={() => setOpen(false)} aria-label="Close contact options">×</button>
+            <p className="eyebrow dark">Contact E.T. Custom Landscaping</p>
+            <h2 id="contact-prompt-title">How would you like to reach us?</h2>
+            <p>Call, text, or answer a few questions to prepare an email. We’re happy to receive text messages.</p>
+
+            <label className="contact-prompt-service" htmlFor="promptService">
+              <span>What are you interested in?</span>
+              <select id="promptService" value={selectedService} onChange={(event) => setSelectedService(event.target.value)}>
+                <option value="">Choose a service</option>
+                <option value="lawn-maintenance">Lawn Maintenance</option>
+                <option value="landscaping">Landscaping</option>
+              </select>
+            </label>
+
+            <div className="contact-prompt-options">
+              <a href={phoneHref}>
+                <strong>Call</strong>
+                <span>{phone}</span>
+              </a>
+              <a className="preferred" href={textHref}>
+                <strong>Text</strong>
+                <span>Prefilled message</span>
+              </a>
+              <a href={emailHref} onClick={() => setOpen(false)}>
+                <strong>Email</strong>
+                <span>Open questionnaire</span>
+              </a>
+            </div>
+          </section>
+        </div>,
+        document.body,
+      )}
+    </>
+  )
+}
+
 function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [featuredPhoto, setFeaturedPhoto] = useState(0)
@@ -178,12 +252,12 @@ function HomePage() {
           <a href="#work" onClick={closeMenu}>Work</a>
           <a href="#reviews" onClick={closeMenu}>Reviews</a>
           <a href="#contact" onClick={closeMenu}>Contact</a>
-          <a className="nav-mobile-call" href={generalContactHref} onClick={closeMenu}>Contact Us</a>
+          <ContactPromptButton className="nav-mobile-call" onOpen={closeMenu}>Contact Us</ContactPromptButton>
         </nav>
 
-        <a className="header-call" href={generalContactHref}>
+        <ContactPromptButton className="header-call">
           Talk About Your Property
-        </a>
+        </ContactPromptButton>
       </header>
 
       <main id="top">
@@ -205,9 +279,9 @@ function HomePage() {
               projects handled by a local crew that keeps the finished result sharp.
             </p>
             <div className="hero-actions">
-              <a className="primary-button" href={landscapingContactHref}>
+              <ContactPromptButton className="primary-button" service="landscaping">
                 Plan Your Landscape Project
-              </a>
+              </ContactPromptButton>
               <a className="secondary-button" href="#work">
                 See Our Work
               </a>
@@ -388,9 +462,9 @@ function HomePage() {
               We serve Duval County, St. Johns County, and the Beaches.
             </p>
             <div className="contact-actions">
-              <a className="primary-button" href={lawnContactHref}>
+              <ContactPromptButton className="primary-button" service="lawn-maintenance">
                 Schedule Lawn Service
-              </a>
+              </ContactPromptButton>
               <a className="secondary-button dark" href="https://www.facebook.com/etcustomlandscaping" target="_blank" rel="noreferrer">
                 Facebook
               </a>
@@ -405,7 +479,7 @@ function HomePage() {
       <footer className="site-footer">
         <img src={logo} alt="E.T. Custom Landscaping logo" />
         <p>Full-service landscaping across Duval County, St. Johns County, and the Beaches.</p>
-        <a href={phoneHref}>{phone}</a>
+        <ContactPromptButton className="footer-contact-button">{phone}</ContactPromptButton>
       </footer>
     </div>
   )
@@ -434,9 +508,9 @@ function InteriorHeader() {
         <a href="#/">Home</a>
         <a href="#/lawn-maintenance">Lawn Maintenance</a>
         <a href="#/landscaping">Landscaping</a>
-        <a className="nav-mobile-call" href={generalContactHref}>Contact Us</a>
+        <ContactPromptButton className="nav-mobile-call">Contact Us</ContactPromptButton>
       </nav>
-      <a className="header-call" href={generalContactHref}>Talk About Your Property</a>
+      <ContactPromptButton className="header-call">Talk About Your Property</ContactPromptButton>
     </header>
   )
 }
@@ -446,7 +520,7 @@ function InteriorFooter() {
     <footer className="site-footer">
       <img src={logo} alt="E.T. Custom Landscaping logo" />
       <p>Serving Duval County, St. Johns County, and the Beaches.</p>
-      <a href={phoneHref}>{phone}</a>
+      <ContactPromptButton className="footer-contact-button">{phone}</ContactPromptButton>
     </footer>
   )
 }
@@ -461,7 +535,7 @@ function LawnMaintenancePage() {
             <p className="eyebrow">Dedicated Lawn Maintenance</p>
             <h1>Lawn maintenance built around your property.</h1>
             <p>Reliable, professional lawn service for homeowners throughout Duval County, St. Johns County, and the Beaches. Choose the level of care you need and the mower that best suits your lawn.</p>
-            <a className="primary-button" href={lawnContactHref}>Discuss Your Lawn</a>
+            <ContactPromptButton className="primary-button" service="lawn-maintenance">Discuss Your Lawn</ContactPromptButton>
           </div>
         </section>
 
@@ -477,14 +551,14 @@ function LawnMaintenancePage() {
               <p className="package-price"><span>Starting at</span>$165 <small>/ month</small></p>
               <p>Dependable routine service covering the essentials your lawn needs for a clean, finished appearance.</p>
               <ul><li>Mowing</li><li>Edging</li><li>Weed eating</li><li>Blowing off hard surfaces</li></ul>
-              <a className="primary-button" href={lawnContactHref}>Ask About Basic Service</a>
+              <ContactPromptButton className="primary-button" service="lawn-maintenance">Ask About Basic Service</ContactPromptButton>
             </article>
             <article className="package-card featured-package">
               <p className="package-label">Full Service</p>
               <p className="package-price"><span>Starting at</span>$185 <small>/ month</small></p>
               <p>Our more complete package for homeowners who want the lawn and landscape beds kept consistently presentable.</p>
               <ul><li>Everything in Basic Service</li><li>Hedge trimming</li><li>Weed control in landscape beds</li></ul>
-              <a className="primary-button" href={lawnContactHref}>Ask About Full Service</a>
+              <ContactPromptButton className="primary-button" service="lawn-maintenance">Ask About Full Service</ContactPromptButton>
             </article>
           </div>
           <p className="pricing-note">Final monthly pricing depends on the property’s size, layout, access, condition, and maintenance needs. Push-mower service is available at an additional cost.</p>
@@ -528,7 +602,7 @@ function LawnMaintenancePage() {
           <div className="contact-card">
             <p className="eyebrow dark">Let’s Find the Right Service</p>
             <h2>Compare packages and choose the right mowing style for your lawn.</h2>
-            <div className="contact-actions"><a className="primary-button" href={lawnContactHref}>Choose How to Contact Us</a></div>
+            <div className="contact-actions"><ContactPromptButton className="primary-button" service="lawn-maintenance">Choose How to Contact Us</ContactPromptButton></div>
           </div>
         </section>
       </main>
@@ -557,7 +631,7 @@ function LandscapingPage() {
             <p className="eyebrow">Dedicated Landscaping Crew</p>
             <h1>Landscaping that makes your property look finished.</h1>
             <p>From focused refreshes to complete transformations, we improve curb appeal, solve problem areas, and create outdoor spaces that feel properly cared for.</p>
-            <a className="primary-button" href={landscapingContactHref}>Plan Your Landscape Project</a>
+            <ContactPromptButton className="primary-button" service="landscaping">Plan Your Landscape Project</ContactPromptButton>
           </div>
         </section>
 
@@ -583,7 +657,7 @@ function LandscapingPage() {
         </section>
 
         <section className="contact-section interior-contact">
-          <div className="contact-card"><p className="eyebrow dark">Ready to Improve Your Property?</p><h2>Tell us what you want to change and we’ll talk through the right next step.</h2><div className="contact-actions"><a className="primary-button" href={landscapingContactHref}>Talk About Your Property</a></div></div>
+          <div className="contact-card"><p className="eyebrow dark">Ready to Improve Your Property?</p><h2>Tell us what you want to change and we’ll talk through the right next step.</h2><div className="contact-actions"><ContactPromptButton className="primary-button" service="landscaping">Talk About Your Property</ContactPromptButton></div></div>
         </section>
       </main>
       <InteriorFooter />
@@ -596,7 +670,7 @@ const serviceLabels = {
   landscaping: 'Landscaping',
 }
 
-function ContactPage({ initialService }) {
+function ContactPage({ initialService, initialMethod }) {
   const [service, setService] = useState(serviceLabels[initialService] ? initialService : '')
   const [emailForm, setEmailForm] = useState({
     name: '',
@@ -608,6 +682,14 @@ function ContactPage({ initialService }) {
   const selectedService = serviceLabels[service] || 'lawn maintenance or landscaping services'
   const textMessage = `Hi E.T. Custom Landscaping! I'm interested in ${selectedService.toLowerCase()}. I'd like to talk about my property.`
   const textHref = `sms:+19047750383?body=${encodeURIComponent(textMessage)}`
+
+  useEffect(() => {
+    if (initialMethod !== 'email') return undefined
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById('email-questionnaire')?.scrollIntoView({ behavior: 'smooth' })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [initialMethod])
 
   const updateEmailField = (event) => {
     const { name, value } = event.target
@@ -855,7 +937,9 @@ function ApplicationPage() {
 function App() {
   const [route, setRoute] = useState(window.location.hash)
   const [routePath, queryString = ''] = route.split('?')
-  const contactService = new URLSearchParams(queryString).get('service') || ''
+  const routeParameters = new URLSearchParams(queryString)
+  const contactService = routeParameters.get('service') || ''
+  const contactMethod = routeParameters.get('method') || ''
 
   useEffect(() => {
     const updateRoute = () => {
@@ -876,7 +960,7 @@ function App() {
     document.title = pageTitles[routePath] || 'E.T. Custom Landscaping'
   }, [routePath])
 
-  if (routePath === '#/contact') return <ContactPage initialService={contactService} />
+  if (routePath === '#/contact') return <ContactPage initialService={contactService} initialMethod={contactMethod} />
   if (routePath === '#/apply') return <ApplicationPage />
   if (routePath === '#/lawn-maintenance') return <LawnMaintenancePage />
   if (routePath === '#/landscaping') return <LandscapingPage />
