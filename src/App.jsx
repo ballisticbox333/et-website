@@ -23,6 +23,10 @@ import treeBed from './assets/work/finished-tree-bed.jpg'
 import rockMulchDesign from './assets/work/finished-rock-mulch-design.jpg'
 import standOnMower from './assets/work/stand-on-mower.jpg'
 import pushMower from './assets/work/push-mower.jpg'
+import singleOperatorPattern from './assets/training/single-operator-mowing-pattern.png'
+import twoOperatorStandardPattern from './assets/training/two-operator-standard-pattern.png'
+import twoOperatorFencedPattern from './assets/training/two-operator-fenced-pattern.png'
+import twoOperatorAdjacentPattern from './assets/training/two-operator-adjacent-pattern.png'
 
 const phone = '904-775-0383'
 const phoneHref = 'tel:+19047750383'
@@ -851,6 +855,309 @@ function ApplicationPage() {
   )
 }
 
+const trainingTopics = [
+  {
+    id: 'mowing',
+    title: 'Mowing',
+    description: 'Mower setup, safe operation, cutting patterns, and a clean finished lawn.',
+    available: true,
+  },
+  {
+    id: 'blowing',
+    title: 'Blowing',
+    description: 'Clean hard surfaces, beds, and final-pass expectations.',
+  },
+  {
+    id: 'edging',
+    title: 'Edging',
+    description: 'Straight, consistent edges along concrete, beds, and property lines.',
+  },
+  {
+    id: 'hedge-trimming',
+    title: 'Hedge Trimming',
+    description: 'Shape, height, cleanup, and careful work around the property.',
+  },
+  {
+    id: 'weedeating',
+    title: 'Weedeating',
+    description: 'Detail work around obstacles and areas the mower cannot safely reach.',
+  },
+]
+
+function TrainingHeader() {
+  return (
+    <header className="training-header">
+      <a className="brand" href="#/" aria-label="E.T. Custom Landscaping home">
+        <img src={logo} alt="" />
+        <span>E.T. Custom Landscaping</span>
+      </a>
+      <span className="training-header-label">Crew Training</span>
+    </header>
+  )
+}
+
+function TrainingPage() {
+  return (
+    <div className="training-page">
+      <TrainingHeader />
+      <main className="training-main">
+        <section className="training-intro" aria-labelledby="training-title">
+          <p className="eyebrow">Training Library</p>
+          <h1 id="training-title">Choose a training section.</h1>
+          <p>Select a topic to review the E.T. Custom Landscaping process and expectations for that part of the job.</p>
+        </section>
+
+        <nav className="training-topic-grid" aria-label="Training topics">
+          {trainingTopics.map((topic, index) => (
+            <a
+              className={`training-topic-card${topic.available ? ' training-topic-available' : ''}`}
+              href={`#/training/${topic.id}`}
+              key={topic.id}
+            >
+              <span className="training-topic-number">{String(index + 1).padStart(2, '0')}</span>
+              <span className="training-topic-copy">
+                <strong>{topic.title}</strong>
+                <span>{topic.description}</span>
+              </span>
+              <span className="training-topic-arrow" aria-hidden="true">→</span>
+            </a>
+          ))}
+        </nav>
+      </main>
+    </div>
+  )
+}
+
+function TrainingDiagram({ src, alt, caption }) {
+  return (
+    <figure className="training-diagram">
+      <a href={src} target="_blank" rel="noreferrer" aria-label={`Open full-size diagram: ${alt}`}>
+        <img src={src} alt={alt} />
+      </a>
+      <figcaption>{caption} <span>Tap the diagram to open it full size.</span></figcaption>
+    </figure>
+  )
+}
+
+function MowingTrainingPage() {
+  return (
+    <div className="training-page">
+      <TrainingHeader />
+      <main className="training-main mowing-training-main">
+        <a className="training-back-link" href="#/training">← All training sections</a>
+
+        <section className="training-intro mowing-training-intro" aria-labelledby="mowing-training-title">
+          <p className="eyebrow">Crew Training</p>
+          <h1 id="mowing-training-title">Mowing Training</h1>
+          <p>The goal when mowing is simple: produce a clean, consistent cut while moving through the property efficiently.</p>
+          <p>The diagrams in this section show our standard mowing patterns. These patterns should normally be followed, but the route leader may change the mowing order or divide the work differently when the property layout or situation calls for it.</p>
+        </section>
+
+        <nav className="training-section-nav" aria-label="Mowing training sections">
+          <a href="#mowing-standards">Basic Standards</a>
+          <a href="#single-operator">Single Operator</a>
+          <a href="#two-standard">Two Operators</a>
+          <a href="#fenced-yard">Fenced Backyard</a>
+          <a href="#adjacent-properties">Adjacent Properties</a>
+          <a href="#main-rule">Main Rule</a>
+        </nav>
+
+        <section className="mowing-section" id="mowing-standards">
+          <div className="mowing-section-heading">
+            <p className="eyebrow dark">The Foundation</p>
+            <h2>Basic Mowing Standards</h2>
+          </div>
+          <div className="mowing-standard-grid">
+            <article>
+              <span>01</span>
+              <h3>Treat the lawn as sections</h3>
+              <p>Break the lawn into logical squares or rectangles whenever possible.</p>
+              <p>Front yards, side yards, backyards, sidewalk strips, and other separated areas should generally be treated as individual mowing sections.</p>
+              <p>Finish the section you are working on before moving unnecessarily to another area.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Outline first</h3>
+              <p>Before filling in a section, make at least one outline pass around its perimeter.</p>
+              <p>This gives you room to turn, helps establish the section, and makes the finished result cleaner.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Fill with straight passes</h3>
+              <p>After outlining the section, fill the inside using straight back-and-forth passes.</p>
+              <p>Avoid random movements or unnecessary changes in direction.</p>
+            </article>
+            <article>
+              <span>04</span>
+              <h3>Overlap your passes</h3>
+              <p>Each mowing pass should slightly overlap the previous one.</p>
+              <p>Do not try to place the very edge of the mower directly beside the previous pass. A small overlap prevents thin strips of uncut grass from being left behind.</p>
+            </article>
+            <article>
+              <span>05</span>
+              <h3>Leave appropriate clearance</h3>
+              <p>Do not mow excessively close to fences, houses, landscaping, trees, vehicles, air conditioners, or other obstacles.</p>
+              <p>Leave enough room to prevent damage to the mower or the property. Areas that cannot be safely reached with the mower can be handled during trimming.</p>
+            </article>
+            <article>
+              <span>06</span>
+              <h3>Minimize unnecessary crossings</h3>
+              <p>Avoid repeatedly crossing sidewalks, driveways, and already-completed areas.</p>
+              <p>Plan your route so that the mower continues naturally from one section into the next.</p>
+            </article>
+          </div>
+        </section>
+
+        <section className="mowing-section mowing-pattern-section" id="single-operator">
+          <div className="mowing-copy">
+            <p className="eyebrow dark">One Mower</p>
+            <h2>Single-Operator Mowing</h2>
+            <p>When one person is mowing the property, the goal is to create one continuous route around the lawn.</p>
+            <p>Start with the section closest to the street, work through the front yard, continue around one side of the house, complete the backyard, and finish on the opposite side.</p>
+            <p>The exact direction may change depending on the property, but unnecessary backtracking and repeated crossings should be avoided.</p>
+            <ul>
+              <li>Treat each area as its own section.</li>
+              <li>Outline the section first.</li>
+              <li>Fill it with straight passes.</li>
+              <li>Move naturally from one section into the next.</li>
+              <li>Minimize unnecessary crossings of sidewalks and driveways.</li>
+            </ul>
+          </div>
+          <TrainingDiagram
+            src={singleOperatorPattern}
+            alt="Single-operator mowing pattern showing a continuous route through seven lawn sections"
+            caption="Standard single-operator route"
+          />
+        </section>
+
+        <section className="mowing-section mowing-pattern-section reverse" id="two-standard">
+          <TrainingDiagram
+            src={twoOperatorStandardPattern}
+            alt="Two-operator mowing pattern showing operators starting apart and meeting in the backyard"
+            caption="Standard two-operator property pattern"
+          />
+          <div className="mowing-copy">
+            <p className="eyebrow dark">Two Mowers</p>
+            <h2>Two Operators — Standard Property</h2>
+            <p>When two people are mowing the same property, they should begin as far apart from each other as reasonably possible.</p>
+            <p>Each mower works through their side of the property independently rather than following the other mower around.</p>
+            <p>Both operators continue mowing toward the remaining unfinished area until their work meets. There is no reason for one mower to wait for the other.</p>
+            <p>On a typical property, each mower handles one side of the front and side yards before both eventually reach the backyard.</p>
+            <p>Once both operators are in the backyard, they work together to finish it.</p>
+            <p>Near the end, if only a small amount of mowing remains, one operator may leave the other to finish and begin the next task, such as blowing.</p>
+            <p>The goal is to keep everyone productive rather than having two people finish the final few mower passes unnecessarily.</p>
+          </div>
+        </section>
+
+        <section className="mowing-section mowing-pattern-section" id="fenced-yard">
+          <div className="mowing-copy">
+            <p className="eyebrow dark">One Gate</p>
+            <h2>Two Operators — Fenced Backyard</h2>
+            <p>A fenced backyard changes where the operators should begin, but the same basic principle applies:</p>
+            <p className="mowing-callout"><strong>Start as far apart as possible and work toward each other.</strong></p>
+            <p>If the backyard has only one gate, one operator can begin inside the fenced backyard while the other begins outside the fence on the opposite side.</p>
+            <p>The operator inside the fence works through the backyard and exits through the gate. The other operator works around the outside of the house.</p>
+            <p>The gate may be on either side of the property. The pattern can simply be mirrored.</p>
+            <p>There is no designated meetup point. Whichever mower reaches unfinished grass continues mowing it.</p>
+            <p>The important idea is that both employees remain productive and gradually work toward each other until the entire property is complete.</p>
+          </div>
+          <TrainingDiagram
+            src={twoOperatorFencedPattern}
+            alt="Two-operator mowing pattern for a property with a fenced backyard and one gate"
+            caption="Two-operator pattern for a fenced backyard"
+          />
+        </section>
+
+        <section className="mowing-section mowing-pattern-section reverse" id="adjacent-properties">
+          <TrainingDiagram
+            src={twoOperatorAdjacentPattern}
+            alt="Two-operator mowing pattern divided across multiple adjacent properties"
+            caption="Two-operator pattern for adjacent properties"
+          />
+          <div className="mowing-copy">
+            <p className="eyebrow dark">Several Homes</p>
+            <h2>Two Operators — Multiple Adjacent Properties</h2>
+            <p>When several neighboring properties are being mowed together, dividing the work by area can be more efficient than having both operators completely finish one house before moving to the next.</p>
+            <p>One operator can primarily handle the front yards while the other primarily handles the backyards.</p>
+            <h3>Front-yard operator</h3>
+            <p>The front-yard operator begins at one end of the group and works through the front sections in order.</p>
+            <p>Complete each logical section before moving to the next. Grass between the sidewalk and road is part of the lawn and should be included.</p>
+            <h3>Backyard operator</h3>
+            <p>The backyard operator begins from the opposite end and works through the backyards.</p>
+            <p>Large backyards can be divided into smaller logical squares or rectangles. There is no requirement that every backyard be divided exactly the same way. Use sections that make sense for the property.</p>
+            <h3>Side yards</h3>
+            <p>The route leader decides who is responsible for the side yards. The assignment should be based on what makes the overall mowing pattern most efficient.</p>
+            <p>Whoever is responsible for a side yard should normally mow it when they are already closest to it rather than returning later.</p>
+          </div>
+        </section>
+
+        <section className="mowing-section mowing-finish-section">
+          <div className="mowing-section-heading">
+            <p className="eyebrow dark">Keep Moving</p>
+            <h2>When One Mower Finishes First</h2>
+          </div>
+          <div className="mowing-finish-card">
+            <p>Operators should not stop working simply because their original assignment is complete.</p>
+            <p>When one mower finishes first, they begin helping the other mower from the opposite end of the unfinished work.</p>
+            <p>For example, if the front-yard operator finishes first, they begin helping with the highest-numbered unfinished backyard section.</p>
+            <p>If the backyard operator finishes first, they begin helping with the highest-numbered unfinished side or front section.</p>
+            <p>Both operators then continue working toward each other until all mowing is complete.</p>
+            <strong>The exact place where they meet does not matter.</strong>
+          </div>
+        </section>
+
+        <section className="mowing-main-rule" id="main-rule">
+          <p className="eyebrow">The Main Rule</p>
+          <h2>Understand the system. Apply it to the property.</h2>
+          <p>The diagrams are the standard procedure, but they are not meant to replace common sense. The route leader may change the pattern when necessary.</p>
+          <p>Different properties will have different shapes, fences, gates, landscaping, slopes, obstacles, and amounts of grass.</p>
+          <ul>
+            <li>Divide the lawn into logical sections.</li>
+            <li>Outline before filling.</li>
+            <li>Use straight, slightly overlapping passes.</li>
+            <li>Avoid getting unnecessarily close to obstacles.</li>
+            <li>Minimize unnecessary crossings and travel.</li>
+            <li>Start multiple mowers far apart.</li>
+            <li>Keep everyone working.</li>
+            <li>When your assigned work is finished, help complete the remaining work from the opposite end.</li>
+            <li>Follow the route leader&apos;s instructions when the standard pattern needs to be adjusted.</li>
+          </ul>
+          <div className="mowing-rule-finish">
+            <strong>The goal is not to copy a diagram perfectly.</strong>
+            <span>The goal is to understand the system well enough to apply it efficiently to any property.</span>
+          </div>
+        </section>
+      </main>
+    </div>
+  )
+}
+
+function TrainingTopicPage({ topicId }) {
+  const topic = trainingTopics.find((item) => item.id === topicId)
+
+  if (!topic) return <TrainingPage />
+  if (topicId === 'mowing') return <MowingTrainingPage />
+
+  return (
+    <div className="training-page">
+      <TrainingHeader />
+      <main className="training-main">
+        <a className="training-back-link" href="#/training">← All training sections</a>
+        <section className="training-intro training-topic-intro" aria-labelledby="training-topic-title">
+          <p className="eyebrow">Crew Training</p>
+          <h1 id="training-topic-title">{topic.title}</h1>
+          <p>{topic.available ? 'This training section is ready for the mowing material we add next.' : 'Training material for this section will be added soon.'}</p>
+        </section>
+        <section className="training-placeholder" aria-label={`${topic.title} training status`}>
+          <span>{topic.available ? 'Next up' : 'Coming soon'}</span>
+          <h2>{topic.available ? 'Build the mowing training.' : `${topic.title} training`}</h2>
+          <p>{topic.available ? 'We can add the mowing steps, photos, videos, safety checks, and knowledge questions here.' : 'This section is in place and ready for its training content.'}</p>
+        </section>
+      </main>
+    </div>
+  )
+}
+
 function App() {
   const [route, setRoute] = useState(window.location.hash)
   const [routePath, queryString = ''] = route.split('?')
@@ -873,6 +1180,7 @@ function App() {
       '#/apply': 'Employment Application | E.T. Custom Landscaping',
       '#/lawn-maintenance': 'Lawn Maintenance | E.T. Custom Landscaping',
       '#/landscaping': 'Landscaping | E.T. Custom Landscaping',
+      '#/training': 'Crew Training | E.T. Custom Landscaping',
     }
     document.title = pageTitles[routePath] || 'E.T. Custom Landscaping'
   }, [routePath])
@@ -881,6 +1189,8 @@ function App() {
   if (routePath === '#/apply') return <ApplicationPage />
   if (routePath === '#/lawn-maintenance') return <LawnMaintenancePage />
   if (routePath === '#/landscaping') return <LandscapingPage />
+  if (routePath === '#/training') return <TrainingPage />
+  if (routePath.startsWith('#/training/')) return <TrainingTopicPage topicId={routePath.replace('#/training/', '')} />
   return <HomePage />
 }
 

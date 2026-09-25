@@ -1370,6 +1370,443 @@ button.contact-method-button {
   text-align: center;
 }
 
+.training-page {
+  background:
+    radial-gradient(circle at 88% 3%, rgba(111, 189, 47, 0.17), transparent 31rem),
+    var(--soft);
+  min-height: 100vh;
+}
+
+.training-header {
+  align-items: center;
+  background: var(--green-deep);
+  color: var(--white);
+  display: flex;
+  justify-content: space-between;
+  padding: 14px clamp(18px, 4vw, 56px);
+}
+
+.training-header-label {
+  color: var(--green);
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.training-main {
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: clamp(54px, 8vw, 96px) 20px clamp(70px, 10vw, 120px);
+}
+
+.training-intro {
+  margin-bottom: clamp(34px, 6vw, 58px);
+  max-width: 820px;
+}
+
+.training-intro h1 {
+  font-size: clamp(3rem, 7vw, 6.2rem);
+  line-height: 0.94;
+  margin: 14px 0 24px;
+}
+
+.training-intro > p:last-child {
+  color: var(--muted);
+  font-size: clamp(1.02rem, 2vw, 1.22rem);
+  line-height: 1.65;
+  max-width: 680px;
+}
+
+.training-topic-grid {
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.training-topic-card {
+  align-items: center;
+  background: var(--white);
+  display: grid;
+  gap: 22px;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  min-height: 154px;
+  padding: 26px 30px;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.training-topic-card:last-child {
+  grid-column: 1 / -1;
+}
+
+.training-topic-card:hover,
+.training-topic-card:focus-visible {
+  background: var(--green-dark);
+  color: var(--white);
+}
+
+.training-topic-card:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: -4px;
+}
+
+.training-topic-number {
+  color: var(--green-dark);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+}
+
+.training-topic-card:hover .training-topic-number,
+.training-topic-card:focus-visible .training-topic-number {
+  color: var(--green);
+}
+
+.training-topic-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.training-topic-copy strong {
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+.training-topic-copy > span {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.training-topic-card:hover .training-topic-copy > span,
+.training-topic-card:focus-visible .training-topic-copy > span {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.training-topic-arrow {
+  align-items: center;
+  background: var(--green-deep);
+  border-radius: 50%;
+  color: var(--white);
+  display: flex;
+  font-size: 1.25rem;
+  height: 42px;
+  justify-content: center;
+  transition: background-color 180ms ease, transform 180ms ease;
+  width: 42px;
+}
+
+.training-topic-available .training-topic-arrow,
+.training-topic-card:hover .training-topic-arrow,
+.training-topic-card:focus-visible .training-topic-arrow {
+  background: var(--green);
+  color: var(--black);
+  transform: translateX(3px);
+}
+
+.training-back-link {
+  color: var(--green-dark);
+  display: inline-block;
+  font-weight: 850;
+  margin-bottom: 44px;
+}
+
+.training-back-link:hover,
+.training-back-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.training-topic-intro {
+  margin-bottom: 36px;
+}
+
+.training-placeholder {
+  background: var(--green-deep);
+  border-radius: 10px;
+  color: var(--white);
+  padding: clamp(30px, 6vw, 64px);
+}
+
+.training-placeholder > span {
+  color: var(--green);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.training-placeholder h2 {
+  margin: 16px 0;
+}
+
+.training-placeholder p {
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.65;
+  margin-bottom: 0;
+  max-width: 700px;
+}
+
+.mowing-training-main {
+  max-width: 1240px;
+}
+
+.mowing-training-intro {
+  max-width: 950px;
+}
+
+.mowing-training-intro > p:last-child {
+  border-left: 3px solid var(--green);
+  margin-top: 22px;
+  max-width: 820px;
+  padding-left: 18px;
+}
+
+.training-section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: clamp(68px, 9vw, 110px);
+}
+
+.training-section-nav a {
+  background: var(--green-deep);
+  border: 1px solid var(--green-deep);
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 0.86rem;
+  font-weight: 850;
+  padding: 11px 16px;
+}
+
+.training-section-nav a:hover,
+.training-section-nav a:focus-visible {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--black);
+}
+
+.training-section-nav a:focus-visible {
+  outline: 3px solid rgba(111, 189, 47, 0.28);
+  outline-offset: 2px;
+}
+
+.mowing-section {
+  scroll-margin-top: 24px;
+}
+
+.mowing-section + .mowing-section,
+.mowing-main-rule {
+  margin-top: clamp(72px, 10vw, 128px);
+}
+
+.mowing-section-heading {
+  margin-bottom: 34px;
+  max-width: 820px;
+}
+
+.mowing-section-heading h2,
+.mowing-copy h2,
+.mowing-main-rule h2 {
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  line-height: 0.98;
+  margin: 12px 0 22px;
+}
+
+.mowing-standard-grid {
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.mowing-standard-grid article {
+  background: var(--white);
+  padding: clamp(25px, 4vw, 40px);
+}
+
+.mowing-standard-grid article > span {
+  color: var(--green-dark);
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin-bottom: 22px;
+}
+
+.mowing-standard-grid h3,
+.mowing-copy h3 {
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  margin-bottom: 13px;
+}
+
+.mowing-standard-grid p,
+.mowing-copy p,
+.mowing-copy li,
+.mowing-finish-card p,
+.mowing-main-rule > p,
+.mowing-main-rule li {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.mowing-standard-grid p:last-child {
+  margin-bottom: 0;
+}
+
+.mowing-pattern-section {
+  align-items: start;
+  display: grid;
+  gap: clamp(32px, 6vw, 78px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+}
+
+.mowing-pattern-section.reverse {
+  grid-template-columns: minmax(360px, 1.1fr) minmax(0, 0.9fr);
+}
+
+.mowing-copy {
+  padding-top: 10px;
+}
+
+.mowing-copy ul {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0 0;
+  padding-left: 22px;
+}
+
+.mowing-copy h3 {
+  margin-top: 30px;
+}
+
+.mowing-callout {
+  background: var(--white);
+  border-left: 4px solid var(--green);
+  border-radius: 0 7px 7px 0;
+  color: var(--black) !important;
+  font-size: 1.08rem;
+  padding: 17px 19px;
+}
+
+.training-diagram {
+  background: var(--green-deep);
+  border: 1px solid rgba(7, 17, 11, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 22px 60px rgba(7, 17, 11, 0.12);
+  margin: 0;
+  overflow: hidden;
+}
+
+.training-diagram a {
+  background: #07110b;
+  display: block;
+}
+
+.training-diagram img {
+  display: block;
+  height: auto;
+  transition: transform 220ms ease;
+  width: 100%;
+}
+
+.training-diagram a:hover img,
+.training-diagram a:focus-visible img {
+  transform: scale(1.012);
+}
+
+.training-diagram a:focus-visible {
+  outline: 4px solid var(--green);
+  outline-offset: -4px;
+}
+
+.training-diagram figcaption {
+  color: var(--white);
+  font-weight: 850;
+  line-height: 1.45;
+  padding: 17px 20px 19px;
+}
+
+.training-diagram figcaption span {
+  color: rgba(255, 255, 255, 0.58);
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.mowing-finish-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: clamp(28px, 5vw, 52px);
+}
+
+.mowing-finish-card strong {
+  color: var(--green-dark);
+  display: block;
+  font-size: clamp(1.25rem, 2.5vw, 1.8rem);
+  margin-top: 26px;
+}
+
+.mowing-main-rule {
+  background: var(--green-deep);
+  border-radius: 12px;
+  color: var(--white);
+  padding: clamp(34px, 7vw, 76px);
+  scroll-margin-top: 24px;
+}
+
+.mowing-main-rule h2 {
+  max-width: 850px;
+}
+
+.mowing-main-rule > p,
+.mowing-main-rule li {
+  color: rgba(255, 255, 255, 0.73);
+}
+
+.mowing-main-rule > p {
+  max-width: 850px;
+}
+
+.mowing-main-rule ul {
+  columns: 2;
+  gap: 64px;
+  margin: 34px 0 0;
+  padding-left: 22px;
+}
+
+.mowing-main-rule li {
+  break-inside: avoid;
+  margin-bottom: 11px;
+  padding-right: 20px;
+}
+
+.mowing-rule-finish {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  display: grid;
+  gap: 7px;
+  margin-top: 35px;
+  padding-top: 30px;
+}
+
+.mowing-rule-finish strong {
+  color: var(--green);
+  font-size: clamp(1.3rem, 3vw, 2rem);
+}
+
+.mowing-rule-finish span {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
 @media (max-width: 980px) {
   .site-header {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -1437,6 +1874,19 @@ button.contact-method-button {
   .contact-method-card:last-child {
     border-radius: 0 0 9px 9px;
   }
+
+  .mowing-pattern-section,
+  .mowing-pattern-section.reverse {
+    grid-template-columns: 1fr;
+  }
+
+  .mowing-pattern-section.reverse .training-diagram {
+    order: 2;
+  }
+
+  .mowing-pattern-section.reverse .mowing-copy {
+    order: 1;
+  }
 }
 
 @media (max-width: 620px) {
@@ -1463,6 +1913,108 @@ button.contact-method-button {
     flex-direction: column;
     gap: 13px;
     padding: 13px 18px 17px;
+  }
+
+  .training-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 13px;
+    padding: 13px 18px 17px;
+  }
+
+  .training-header .brand span {
+    white-space: normal;
+  }
+
+  .training-header-label {
+    font-size: 0.7rem;
+  }
+
+  .training-main {
+    padding: 44px 14px 70px;
+  }
+
+  .training-intro {
+    padding: 0 4px;
+  }
+
+  .training-intro h1 {
+    font-size: clamp(2.5rem, 13vw, 3.45rem);
+    overflow-wrap: anywhere;
+  }
+
+  .training-topic-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .training-topic-card,
+  .training-topic-card:last-child {
+    gap: 13px;
+    grid-column: auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-height: 128px;
+    padding: 22px 18px;
+  }
+
+  .training-topic-copy > span {
+    font-size: 0.9rem;
+  }
+
+  .training-topic-arrow {
+    height: 38px;
+    width: 38px;
+  }
+
+  .training-back-link {
+    margin: 0 4px 34px;
+  }
+
+  .training-placeholder {
+    padding: 28px 22px;
+  }
+
+  .training-section-nav {
+    flex-direction: column;
+  }
+
+  .training-section-nav a {
+    border-radius: 7px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .mowing-standard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mowing-section + .mowing-section,
+  .mowing-main-rule {
+    margin-top: 76px;
+  }
+
+  .mowing-pattern-section,
+  .mowing-pattern-section.reverse {
+    gap: 28px;
+  }
+
+  .mowing-pattern-section .training-diagram,
+  .mowing-pattern-section.reverse .training-diagram {
+    order: 2;
+  }
+
+  .mowing-pattern-section .mowing-copy,
+  .mowing-pattern-section.reverse .mowing-copy {
+    order: 1;
+  }
+
+  .mowing-main-rule {
+    border-radius: 9px;
+    padding: 31px 22px;
+  }
+
+  .mowing-main-rule ul {
+    columns: 1;
+    padding-left: 20px;
   }
 
   .application-header .brand span {
