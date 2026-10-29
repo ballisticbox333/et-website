@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+et-custom-landscaping-cloudflare.zip
 
 # Editor directories and files
 .vscode/*

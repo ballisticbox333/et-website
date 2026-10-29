@@ -1,6 +1,10 @@
 import './App.css'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
+
+import { EmployeeReviewPage, ReviewEntryPage } from './EmployeeReviews'
+
+const OpsApp = import.meta.env.DEV ? lazy(() => import('./ops/OpsApp')) : null
 
 import logo from './assets/ET-custom-logo.png'
 import heroLandscape from './assets/work/hero-front-landscape.jpg'
@@ -34,7 +38,7 @@ const email = 'ETCustomLandscaping@gmail.com'
 const generalContactHref = '#/contact'
 const lawnContactHref = '#/contact?service=lawn-maintenance'
 const landscapingContactHref = '#/contact?service=landscaping'
-const applicationEndpoint = ''
+const applicationEndpoint = 'https://script.google.com/macros/s/AKfycbwBCZ9AMHIQ0Ib5Yu0FOGz4geY8WZcB8yzr8S0ZfHLnO26k0Xv81qenfzC42mqt2anHhg/exec'
 
 const transformations = [
   {
@@ -409,7 +413,10 @@ function HomePage() {
       <footer className="site-footer">
         <img src={logo} alt="E.T. Custom Landscaping logo" />
         <p>Full-service landscaping across Duval County, St. Johns County, and the Beaches.</p>
-        <a href={generalContactHref}>{phone}</a>
+        <div className="footer-links">
+          <a href={generalContactHref}>{phone}</a>
+          <a href="#/apply">Apply</a>
+        </div>
       </footer>
     </div>
   )
@@ -766,31 +773,52 @@ const applicationQuestions = [
 
 function ApplicationPage() {
   const [submissionState, setSubmissionState] = useState('idle')
+  const [formStartedAt, setFormStartedAt] = useState(() => Date.now())
+  const applicationFormRef = useRef(null)
+  const submissionFrameRef = useRef(null)
+  const submissionTimeoutRef = useRef(null)
 
-  const submitApplication = async (event) => {
-    event.preventDefault()
+  useEffect(() => {
+    const receiveSubmissionResult = (event) => {
+      if (event.origin !== 'https://etcustomlandscaping.com') return
+      if (event.data?.source !== 'et-application-backend') return
 
+      window.clearTimeout(submissionTimeoutRef.current)
+
+      if (event.data.ok) {
+        applicationFormRef.current?.reset()
+        setFormStartedAt(Date.now())
+        setSubmissionState('success')
+        return
+      }
+
+      if (event.data.code === 'RATE_LIMIT') {
+        setSubmissionState('rate-limited')
+        return
+      }
+
+      setSubmissionState('error')
+    }
+
+    window.addEventListener('message', receiveSubmissionResult)
+    return () => {
+      window.removeEventListener('message', receiveSubmissionResult)
+      window.clearTimeout(submissionTimeoutRef.current)
+    }
+  }, [])
+
+  const submitApplication = (event) => {
     if (!applicationEndpoint) {
+      event.preventDefault()
       setSubmissionState('not-connected')
       return
     }
 
-    const form = event.currentTarget
-    const formData = new FormData(form)
-    formData.append('submittedAt', new Date().toISOString())
     setSubmissionState('submitting')
-
-    try {
-      await fetch(applicationEndpoint, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: new URLSearchParams(formData),
-      })
-      form.reset()
-      setSubmissionState('success')
-    } catch {
+    window.clearTimeout(submissionTimeoutRef.current)
+    submissionTimeoutRef.current = window.setTimeout(() => {
       setSubmissionState('error')
-    }
+    }, 25000)
   }
 
   return (
@@ -810,8 +838,19 @@ function ApplicationPage() {
           <p>Tell us about your experience, availability, and how you approach your work. Please answer every question thoughtfully.</p>
         </section>
 
-        <form className="application-form" onSubmit={submitApplication}>
-          <input type="hidden" name="source" value="Indeed application page" />
+        <form
+          ref={applicationFormRef}
+          className="application-form"
+          action={applicationEndpoint}
+          method="post"
+          target="application-submission-frame"
+          onSubmit={submitApplication}
+        >
+          <input type="hidden" name="formStartedAt" value={formStartedAt} />
+          <div className="application-honeypot" aria-hidden="true">
+            <label htmlFor="applicationWebsite">Leave this field empty.</label>
+            <input id="applicationWebsite" name="website" type="text" tabIndex="-1" autoComplete="off" />
+          </div>
 
           <div className="application-field">
             <label htmlFor="fullName">Please fill out your name.</label>
@@ -842,12 +881,22 @@ function ApplicationPage() {
               {submissionState === 'success' && (
                 <p className="status-success">Thank you. Your application has been submitted.</p>
               )}
+              {submissionState === 'rate-limited' && (
+                <p className="status-notice">Please wait before submitting another application.</p>
+              )}
               {submissionState === 'error' && (
                 <p className="status-error">Your application could not be submitted. Please check your connection and try again.</p>
               )}
             </div>
           </div>
         </form>
+
+        <iframe
+          ref={submissionFrameRef}
+          className="application-submission-frame"
+          name="application-submission-frame"
+          title="Application submission response"
+        />
 
         <p className="application-privacy">The information you provide will be used only to review your application with E.T. Custom Landscaping.</p>
       </main>
@@ -954,12 +1003,22 @@ function MowingTrainingPage() {
         </section>
 
         <nav className="training-section-nav" aria-label="Mowing training sections">
-          <a href="#mowing-standards">Basic Standards</a>
-          <a href="#single-operator">Single Operator</a>
-          <a href="#two-standard">Two Operators</a>
-          <a href="#fenced-yard">Fenced Backyard</a>
-          <a href="#adjacent-properties">Adjacent Properties</a>
-          <a href="#main-rule">Main Rule</a>
+          {[
+            ['mowing-standards', 'Basic Standards'],
+            ['single-operator', 'Single Operator'],
+            ['two-standard', 'Two Operators'],
+            ['fenced-yard', 'Fenced Backyard'],
+            ['adjacent-properties', 'Adjacent Properties'],
+            ['main-rule', 'Main Rule'],
+          ].map(([sectionId, label]) => (
+            <button
+              type="button"
+              key={sectionId}
+              onClick={() => document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            >
+              {label}
+            </button>
+          ))}
         </nav>
 
         <section className="mowing-section" id="mowing-standards">
@@ -1160,6 +1219,7 @@ function TrainingTopicPage({ topicId }) {
 
 function App() {
   const [route, setRoute] = useState(window.location.hash)
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/'
   const [routePath, queryString = ''] = route.split('?')
   const routeParameters = new URLSearchParams(queryString)
   const contactService = routeParameters.get('service') || ''
@@ -1175,6 +1235,16 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (pathname === '/reviews') {
+      document.title = 'Employee Reviews | E.T. Custom Landscaping'
+      return
+    }
+
+    if (pathname.startsWith('/reviews/')) {
+      document.title = 'My Employee Reviews | E.T. Custom Landscaping'
+      return
+    }
+
     const pageTitles = {
       '#/contact': 'Contact Us | E.T. Custom Landscaping',
       '#/apply': 'Employment Application | E.T. Custom Landscaping',
@@ -1183,7 +1253,22 @@ function App() {
       '#/training': 'Crew Training | E.T. Custom Landscaping',
     }
     document.title = pageTitles[routePath] || 'E.T. Custom Landscaping'
-  }, [routePath])
+  }, [pathname, routePath])
+
+  if (pathname === '/reviews') return <ReviewEntryPage />
+  if (pathname.startsWith('/reviews/')) {
+    let accessCode = ''
+    try {
+      accessCode = decodeURIComponent(pathname.slice('/reviews/'.length))
+    } catch {
+      accessCode = ''
+    }
+    return <EmployeeReviewPage accessCode={accessCode} />
+  }
+
+  if (OpsApp && (pathname === '/ops' || pathname.startsWith('/ops/'))) {
+    return <Suspense fallback={null}><OpsApp /></Suspense>
+  }
 
   if (routePath === '#/contact') return <ContactPage initialService={contactService} initialMethod={contactMethod} />
   if (routePath === '#/apply') return <ApplicationPage />

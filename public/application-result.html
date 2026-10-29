@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Application Submission</title>
+  </head>
+  <body>
+    <script>
+      const status = new URLSearchParams(window.location.search).get('status')
+      const message = {
+        source: 'et-application-backend',
+        ok: status === 'success',
+        code: status === 'rate-limited' ? 'RATE_LIMIT' : status === 'success' ? 'SUCCESS' : 'SERVER_ERROR',
+      }
+
+      if (window.top !== window) {
+        window.top.postMessage(message, '*')
+      }
+    </script>
+  </body>
+</html>
