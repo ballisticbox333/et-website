@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import logo from './assets/ET-custom-logo.png'
 
@@ -47,6 +47,23 @@ const ratingScale = [
   ['4', 'Exceeds expectations'],
   ['5', 'Exceptional'],
 ]
+
+const reviewRubrics = {
+  employee: {
+    title: 'Employee Review Rubric',
+    image: '/reviews/rubrics/employee-review-rubric.png',
+    pdf: '/reviews/rubrics/employee-review-rubric.pdf',
+  },
+  routeLeader: {
+    title: 'Route Leader Review Rubric',
+    image: '/reviews/rubrics/route-leader-review-rubric.png',
+    pdf: '/reviews/rubrics/route-leader-review-rubric.pdf',
+  },
+}
+
+function usesRouteLeaderRubric(role) {
+  return /\broute[\s-]*leader\b/i.test(String(role || ''))
+}
 
 function useReviewPrivacyMetadata(title) {
   useEffect(() => {
@@ -237,8 +254,107 @@ function ReviewMessageState({ title, message }) {
   )
 }
 
+function ReviewRubricViewer({ routeLeader, onClose }) {
+  const rubric = routeLeader ? reviewRubrics.routeLeader : reviewRubrics.employee
+  const [zoom, setZoom] = useState(1)
+  const viewportRef = useRef(null)
+  const closeButtonRef = useRef(null)
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    closeButtonRef.current?.focus()
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose()
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [onClose])
+
+  const changeZoom = (nextZoom) => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+    const horizontalCenter = (viewport.scrollLeft + viewport.clientWidth / 2) / Math.max(1, viewport.scrollWidth)
+    const verticalCenter = (viewport.scrollTop + viewport.clientHeight / 2) / Math.max(1, viewport.scrollHeight)
+    const boundedZoom = Math.min(3, Math.max(1, nextZoom))
+
+    setZoom(boundedZoom)
+    window.requestAnimationFrame(() => {
+      viewport.scrollLeft = horizontalCenter * viewport.scrollWidth - viewport.clientWidth / 2
+      viewport.scrollTop = verticalCenter * viewport.scrollHeight - viewport.clientHeight / 2
+    })
+  }
+
+  const togglePointZoom = (event) => {
+    const viewport = viewportRef.current
+    const image = event.currentTarget
+    if (!viewport) return
+
+    const imageRect = image.getBoundingClientRect()
+    const horizontalPoint = (event.clientX - imageRect.left) / imageRect.width
+    const verticalPoint = (event.clientY - imageRect.top) / imageRect.height
+    const nextZoom = zoom > 1 ? 1 : 2.25
+
+    setZoom(nextZoom)
+    window.requestAnimationFrame(() => {
+      viewport.scrollLeft = horizontalPoint * viewport.scrollWidth - viewport.clientWidth / 2
+      viewport.scrollTop = verticalPoint * viewport.scrollHeight - viewport.clientHeight / 2
+    })
+  }
+
+  const handleImageKeyDown = (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return
+    event.preventDefault()
+    changeZoom(zoom > 1 ? 1 : 2.25)
+  }
+
+  return (
+    <div className="review-rubric-backdrop" role="presentation" onMouseDown={(event) => {
+      if (event.target === event.currentTarget) onClose()
+    }}>
+      <section className="review-rubric-dialog" role="dialog" aria-modal="true" aria-labelledby="review-rubric-title">
+        <header>
+          <div>
+            <p className="review-card-kicker">Rating Guide</p>
+            <h2 id="review-rubric-title">{rubric.title}</h2>
+            <p>Tap or click an area to zoom in. Tap it again to reset.</p>
+          </div>
+          <button ref={closeButtonRef} className="review-rubric-close" type="button" onClick={onClose} aria-label="Close rubric">×</button>
+        </header>
+
+        <div className="review-rubric-toolbar" aria-label="Rubric zoom controls">
+          <button type="button" onClick={() => changeZoom(zoom - 0.5)} disabled={zoom <= 1} aria-label="Zoom out">−</button>
+          <span>{Math.round(zoom * 100)}%</span>
+          <button type="button" onClick={() => changeZoom(zoom + 0.5)} disabled={zoom >= 3} aria-label="Zoom in">+</button>
+          <button type="button" onClick={() => changeZoom(1)} disabled={zoom === 1}>Fit page</button>
+          <a href={rubric.pdf} target="_blank" rel="noreferrer">Open original PDF</a>
+        </div>
+
+        <div className="review-rubric-viewport" ref={viewportRef}>
+          <img
+            src={rubric.image}
+            alt={`${rubric.title} showing the expectations for ratings one through five across all review categories.`}
+            style={{ width: `${zoom * 100}%` }}
+            className={zoom > 1 ? 'is-zoomed' : ''}
+            onClick={togglePointZoom}
+            onKeyDown={handleImageKeyDown}
+            tabIndex="0"
+            draggable="false"
+          />
+        </div>
+      </section>
+    </div>
+  )
+}
+
 export function EmployeeReviewPage({ accessCode }) {
   const [state, setState] = useState({ status: 'loading', data: null })
+  const [showRubric, setShowRubric] = useState(false)
   const codeIsValidLooking = useMemo(() => /^[A-Za-z0-9_-]{8,128}$/.test(accessCode), [accessCode])
 
   useReviewPrivacyMetadata('My Employee Reviews | E.T. Custom Landscaping')
@@ -310,6 +426,7 @@ export function EmployeeReviewPage({ accessCode }) {
 
   const { employee, reviews } = state.data
   const [latestReview, ...previousReviews] = reviews
+  const routeLeaderRubric = usesRouteLeaderRubric(employee.role)
 
   return (
     <div className="review-portal-shell">
@@ -344,6 +461,9 @@ export function EmployeeReviewPage({ accessCode }) {
             <p className="review-card-kicker">How Ratings Work</p>
             <h2 id="rating-scale-title">A 3 is a good, normal rating.</h2>
             <p>A rating of 3 means you are meeting the expectations of your position.</p>
+            <button className="review-rubric-open" type="button" onClick={() => setShowRubric(true)}>
+              View {routeLeaderRubric ? 'Route Leader' : 'Employee'} Review Rubric
+            </button>
           </div>
           <ol>
             {ratingScale.map(([score, meaning]) => (
@@ -382,6 +502,7 @@ export function EmployeeReviewPage({ accessCode }) {
           </section>
         )}
       </main>
+      {showRubric && <ReviewRubricViewer routeLeader={routeLeaderRubric} onClose={() => setShowRubric(false)} />}
     </div>
   )
 }

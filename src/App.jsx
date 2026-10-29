@@ -1,10 +1,8 @@
 import './App.css'
-import { lazy, Suspense, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
 
 import { EmployeeReviewPage, ReviewEntryPage } from './EmployeeReviews'
-
-const OpsApp = import.meta.env.DEV ? lazy(() => import('./ops/OpsApp')) : null
 
 import logo from './assets/ET-custom-logo.png'
 import heroLandscape from './assets/work/hero-front-landscape.jpg'
@@ -1264,10 +1262,6 @@ function App() {
       accessCode = ''
     }
     return <EmployeeReviewPage accessCode={accessCode} />
-  }
-
-  if (OpsApp && (pathname === '/ops' || pathname.startsWith('/ops/'))) {
-    return <Suspense fallback={null}><OpsApp /></Suspense>
   }
 
   if (routePath === '#/contact') return <ContactPage initialService={contactService} initialMethod={contactMethod} />

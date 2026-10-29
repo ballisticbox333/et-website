@@ -2699,6 +2699,166 @@ button.contact-method-button {
   font-weight: 800;
 }
 
+.review-rubric-open {
+  background: var(--green-deep);
+  border: 0;
+  border-radius: 8px;
+  color: var(--white);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  margin-top: 20px;
+  min-height: 48px;
+  padding: 11px 18px;
+}
+
+.review-rubric-open:hover {
+  background: var(--green-dark);
+}
+
+.review-rubric-open:focus-visible,
+.review-rubric-dialog button:focus-visible,
+.review-rubric-dialog a:focus-visible,
+.review-rubric-viewport img:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 3px;
+}
+
+.review-rubric-backdrop {
+  align-items: center;
+  background: rgba(4, 20, 13, 0.78);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 14px;
+  position: fixed;
+  z-index: 1000;
+}
+
+.review-rubric-dialog {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.35);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  height: min(94vh, 980px);
+  max-width: 1500px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.review-rubric-dialog > header {
+  align-items: flex-start;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 18px 20px;
+}
+
+.review-rubric-dialog > header h2 {
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  margin: 2px 0 4px;
+}
+
+.review-rubric-dialog > header p:last-child {
+  color: var(--muted);
+  font-size: 0.84rem;
+  margin: 0;
+}
+
+.review-rubric-close {
+  align-items: center;
+  background: #edf1ec;
+  border: 0;
+  border-radius: 50%;
+  color: var(--green-deep);
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 auto;
+  font-size: 1.8rem;
+  height: 44px;
+  justify-content: center;
+  line-height: 1;
+  width: 44px;
+}
+
+.review-rubric-toolbar {
+  align-items: center;
+  background: #f3f6f1;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  padding: 9px 14px;
+  white-space: nowrap;
+}
+
+.review-rubric-toolbar button,
+.review-rubric-toolbar a {
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--green-deep);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 850;
+  justify-content: center;
+  min-height: 36px;
+  padding: 7px 11px;
+}
+
+.review-rubric-toolbar button:first-child,
+.review-rubric-toolbar button:nth-of-type(2) {
+  font-size: 1.25rem;
+  min-width: 38px;
+  padding: 4px 8px;
+}
+
+.review-rubric-toolbar button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.review-rubric-toolbar span {
+  color: var(--green-deep);
+  font-size: 0.76rem;
+  font-weight: 900;
+  min-width: 48px;
+  text-align: center;
+}
+
+.review-rubric-toolbar a {
+  margin-left: auto;
+}
+
+.review-rubric-viewport {
+  background: #cfd5cf;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 12px;
+  scroll-behavior: smooth;
+}
+
+.review-rubric-viewport img {
+  background: var(--white);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  cursor: zoom-in;
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-width: none;
+  user-select: none;
+}
+
+.review-rubric-viewport img.is-zoomed {
+  cursor: zoom-out;
+}
+
 .employee-review-card.primary {
   border-top: 5px solid var(--green);
 }
@@ -2893,6 +3053,45 @@ button.contact-method-button {
   .employee-review-main {
     gap: 18px;
     padding: 38px 14px 60px;
+  }
+
+  .review-rubric-backdrop {
+    padding: 0;
+  }
+
+  .review-rubric-dialog {
+    border-radius: 0;
+    height: 100dvh;
+    max-height: none;
+  }
+
+  .review-rubric-dialog > header {
+    padding: 13px 14px;
+  }
+
+  .review-rubric-dialog > header .review-card-kicker {
+    display: none;
+  }
+
+  .review-rubric-dialog > header p:last-child {
+    font-size: 0.74rem;
+  }
+
+  .review-rubric-close {
+    height: 40px;
+    width: 40px;
+  }
+
+  .review-rubric-toolbar {
+    padding: 8px 10px;
+  }
+
+  .review-rubric-toolbar a {
+    margin-left: 4px;
+  }
+
+  .review-rubric-viewport {
+    padding: 8px;
   }
 
   .equipment-proficiency,
